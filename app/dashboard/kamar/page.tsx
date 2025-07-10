@@ -44,6 +44,7 @@ export default function KamarPage() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const limit = 10;
   const [search, setSearch] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
   const [form, setForm] = useState<FormData>({
     nomor_kamar: "",
     harga: "",
@@ -56,9 +57,11 @@ export default function KamarPage() {
   const fetchKamar = async () => {
     setIsLoading(true);
     try {
+      const params: Record<string, any> = { page, limit, q: search };
+      if (statusFilter) params.status = statusFilter;
       const res: { data: Kamar[]; count: number } = await apiClient.get(
         "/kamar",
-        { params: { page, limit, q: search } }
+        { params }
       );
       setKamar(res.data);
       setTotalPages(Math.ceil(res.count / limit));
@@ -70,7 +73,7 @@ export default function KamarPage() {
 
   useEffect(() => {
     fetchKamar();
-  }, [page, search]);
+  }, [page, search, statusFilter]);
 
   const openAdd = () => {
     setForm({ nomor_kamar: "", harga: "", status: "kosong" });
@@ -155,7 +158,7 @@ export default function KamarPage() {
         </div>
       </div>
 
-      <div className="flex justify-start">
+      <div className="flex flex-wrap gap-2 justify-start">
         <input
           type="text"
           placeholder="Search..."
@@ -166,6 +169,19 @@ export default function KamarPage() {
             setPage(1);
           }}
         />
+        <select
+          className="select select-bordered"
+          value={statusFilter}
+          onChange={(e) => {
+            setStatusFilter(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All</option>
+          <option value="kosong">Kosong</option>
+          <option value="terisi">Terisi</option>
+          <option value="booked">Booked</option>
+        </select>
       </div>
       <div className="overflow-x-auto">
         {isLoading ? (

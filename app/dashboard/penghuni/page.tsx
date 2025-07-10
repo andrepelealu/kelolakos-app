@@ -50,6 +50,9 @@ export default function PenghuniPage() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const limit = 10;
   const [search, setSearch] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [mulaiFilter, setMulaiFilter] = useState<string>("");
+  const [selesaiFilter, setSelesaiFilter] = useState<string>("");
   const [form, setForm] = useState<FormData>({
     nama: "",
     nomor_kamar: "",
@@ -81,9 +84,13 @@ export default function PenghuniPage() {
   const fetchPenghuni = async () => {
     setIsLoading(true);
     try {
+      const params: Record<string, any> = { page, limit, q: search };
+      if (statusFilter) params.status = statusFilter;
+      if (mulaiFilter) params.mulai_sewa = mulaiFilter;
+      if (selesaiFilter) params.selesai_sewa = selesaiFilter;
       const res: { data: Penghuni[]; count: number } = await apiClient.get(
         "/penghuni",
-        { params: { page, limit, q: search } }
+        { params }
       );
       setPenghuni(res.data);
       setTotalPages(Math.ceil(res.count / limit));
@@ -95,7 +102,7 @@ export default function PenghuniPage() {
 
   useEffect(() => {
     fetchPenghuni();
-  }, [page, search]);
+  }, [page, search, statusFilter, mulaiFilter, selesaiFilter]);
 
   const openAdd = () => {
     const today = new Date().toISOString().slice(0, 10);
@@ -243,7 +250,7 @@ export default function PenghuniPage() {
         </div>
       </div>
  
-      <div className="flex justify-start">
+      <div className="flex flex-wrap gap-2 justify-start">
         <input
           type="text"
           placeholder="Search..."
@@ -251,6 +258,37 @@ export default function PenghuniPage() {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
+            setPage(1);
+          }}
+        />
+        <select
+          className="select select-bordered"
+          value={statusFilter}
+          onChange={(e) => {
+            setStatusFilter(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">Semua Status</option>
+          <option value="panjang">Panjang</option>
+          <option value="hampir habis">Hampir habis</option>
+          <option value="habis">Habis</option>
+        </select>
+        <input
+          type="date"
+          className="input input-bordered"
+          value={mulaiFilter}
+          onChange={(e) => {
+            setMulaiFilter(e.target.value);
+            setPage(1);
+          }}
+        />
+        <input
+          type="date"
+          className="input input-bordered"
+          value={selesaiFilter}
+          onChange={(e) => {
+            setSelesaiFilter(e.target.value);
             setPage(1);
           }}
         />

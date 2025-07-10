@@ -10,6 +10,9 @@ export async function GET(req: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const q = searchParams.get("q") || "";
+  const mulaiSewa = searchParams.get("mulai_sewa") || "";
+  const selesaiSewa = searchParams.get("selesai_sewa") || "";
+  const status = searchParams.get("status") || "";
 
   const from = (page - 1) * limit;
   const to = from + limit - 1;
@@ -25,6 +28,30 @@ export async function GET(req: NextRequest) {
     query = query.or(
       `nama.ilike.${like},nomor_kamar.ilike.${like},nomor_telepon.ilike.${like},email.ilike.${like}`
     );
+  }
+
+  if (mulaiSewa) {
+    query = query.gte("mulai_sewa", mulaiSewa);
+  }
+
+  if (selesaiSewa) {
+    query = query.lte("selesai_sewa", selesaiSewa);
+  }
+
+  if (status) {
+    const today = new Date();
+    const isoToday = today.toISOString().slice(0, 10);
+    const iso14 = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+
+    if (status === "habis") {
+      query = query.lte("selesai_sewa", isoToday);
+    } else if (status === "hampir habis") {
+      query = query.gt("selesai_sewa", isoToday).lte("selesai_sewa", iso14);
+    } else if (status === "panjang") {
+      query = query.gt("selesai_sewa", iso14);
+    }
   }
 
   const { data, count, error } = await query;
