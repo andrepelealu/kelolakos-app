@@ -11,11 +11,11 @@ export async function PUT(
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^62\d{8,15}$/;
 
-  if (!body.nama) {
+  if (body.nama !== undefined && body.nama === "") {
     return NextResponse.json({ error: "Nama is required" }, { status: 400 });
   }
 
-  if (!body.nomor_telepon) {
+  if (body.nomor_telepon !== undefined && body.nomor_telepon === "") {
     return NextResponse.json(
       { error: "Nomor telepon is required" },
       { status: 400 }
@@ -26,21 +26,34 @@ export async function PUT(
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
 
-  if (!phoneRegex.test(body.nomor_telepon)) {
+  if (body.nomor_telepon && !phoneRegex.test(body.nomor_telepon)) {
     return NextResponse.json(
       { error: "Nomor telepon must start with 62 and contain digits only" },
       { status: 400 }
     );
   }
 
+  if (
+    body.mulai_sewa !== undefined &&
+    body.selesai_sewa !== undefined &&
+    new Date(body.selesai_sewa) < new Date(body.mulai_sewa)
+  ) {
+    return NextResponse.json(
+      { error: "Selesai sewa harus setelah mulai sewa" },
+      { status: 400 }
+    );
+  }
+
+  const updatePayload: any = {};
+  ["nama", "nomor_kamar", "nomor_telepon", "email", "mulai_sewa", "selesai_sewa"].forEach(
+    (key) => {
+      if (body[key] !== undefined) updatePayload[key] = body[key];
+    }
+  );
+
   const { data, error } = await supabase
     .from("penghuni")
-    .update({
-      nama: body.nama,
-      nomor_kamar: body.nomor_kamar,
-      nomor_telepon: body.nomor_telepon,
-      email: body.email,
-    })
+    .update(updatePayload)
     .eq("id", params.id)
     .select()
     .single();

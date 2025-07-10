@@ -122,8 +122,13 @@ export default function KamarPage() {
       }
       setIsModalOpen(false);
       fetchKamar();
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      const message = e?.response?.data?.error;
+      if (message) {
+        toast.error(message);
+      } else {
+        console.error(e);
+      }
     }
     setIsSaving(false);
   };
@@ -184,7 +189,7 @@ export default function KamarPage() {
                   <td>{formatRupiah(k.harga)}</td>
                   <td>
                     <span
-                      className={`btn btn-xs pointer-events-none ${
+                      className={`btn btn-xs text-white pointer-events-none ${
                         k.status === "kosong"
                           ? "btn-success"
                           : k.status === "booked"

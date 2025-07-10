@@ -21,6 +21,20 @@ export async function PUT(
     return NextResponse.json({ error: "Invalid status" }, { status: 400 });
   }
 
+  const { count: exist } = await supabase
+    .from("kamar")
+    .select("id", { count: "exact", head: true })
+    .eq("nomor_kamar", body.nomor_kamar)
+    .is("deleted_at", null)
+    .neq("id", params.id);
+
+  if (exist && exist > 0) {
+    return NextResponse.json(
+      { error: "Nomor kamar sudah ada" },
+      { status: 400 }
+    );
+  }
+
   const { data, error } = await supabase
     .from("kamar")
     .update({

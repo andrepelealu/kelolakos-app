@@ -67,6 +67,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  if (!body.mulai_sewa || !body.selesai_sewa) {
+    return NextResponse.json(
+      { error: "Tanggal sewa is required" },
+      { status: 400 }
+    );
+  }
+
   if (body.email && !emailRegex.test(body.email)) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
@@ -74,6 +81,13 @@ export async function POST(req: NextRequest) {
   if (!phoneRegex.test(body.nomor_telepon)) {
     return NextResponse.json(
       { error: "Nomor telepon must start with 62 and contain digits only" },
+      { status: 400 }
+    );
+  }
+
+  if (new Date(body.selesai_sewa) < new Date(body.mulai_sewa)) {
+    return NextResponse.json(
+      { error: "Selesai sewa harus setelah mulai sewa" },
       { status: 400 }
     );
   }
@@ -99,6 +113,8 @@ export async function POST(req: NextRequest) {
       nomor_kamar: body.nomor_kamar,
       nomor_telepon: body.nomor_telepon,
       email: body.email,
+      mulai_sewa: body.mulai_sewa,
+      selesai_sewa: body.selesai_sewa,
     })
     .select()
     .single();

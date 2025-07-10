@@ -6,6 +6,16 @@ import apiClient from "@/libs/api";
 import { Penghuni, Kamar } from "@/types";
 import toast from "react-hot-toast";
 
+const formatDate = (value: string | null) => {
+  if (!value) return "";
+  const date = new Date(value);
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 const DotsIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +38,8 @@ interface FormData {
   nomor_kamar: string;
   nomor_telepon: string;
   email: string;
+  mulai_sewa: string;
+  selesai_sewa: string;
 }
 
 export default function PenghuniPage() {
@@ -43,15 +55,22 @@ export default function PenghuniPage() {
     nomor_kamar: "",
     nomor_telepon: "",
     email: "",
+    mulai_sewa: new Date().toISOString().slice(0, 10),
+    selesai_sewa: new Date().toISOString().slice(0, 10),
   });
   const [editing, setEditing] = useState<Penghuni | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [kamarOptions, setKamarOptions] = useState<Kamar[]>([]);
+  const [extendRow, setExtendRow] = useState<Penghuni | null>(null);
+  const [extendDate, setExtendDate] = useState<string>("");
+  const [isExtendOpen, setIsExtendOpen] = useState(false);
 
-  const fetchKamarOptions = async (q: string) => {
+  const fetchKamarOptions = async (q: string, kosongOnly = false) => {
     try {
+      const params: Record<string, any> = { page: 1, limit: 10, q };
+      if (kosongOnly) params.status = "kosong";
       const res: { data: Kamar[] } = await apiClient.get("/kamar", {
-        params: { page: 1, limit: 10, q },
+        params,
       });
       setKamarOptions(res.data);
     } catch (e) {
@@ -79,10 +98,18 @@ export default function PenghuniPage() {
   }, [page, search]);
 
   const openAdd = () => {
-    setForm({ nama: "", nomor_kamar: "", nomor_telepon: "", email: "" });
+    const today = new Date().toISOString().slice(0, 10);
+    setForm({
+      nama: "",
+      nomor_kamar: "",
+      nomor_telepon: "",
+      email: "",
+      mulai_sewa: today,
+      selesai_sewa: today,
+    });
     setEditing(null);
     setIsSaving(false);
-    fetchKamarOptions("");
+    fetchKamarOptions("", true);
     setIsModalOpen(true);
   };
 
@@ -92,6 +119,8 @@ export default function PenghuniPage() {
       nomor_kamar: row.nomor_kamar,
       nomor_telepon: row.nomor_telepon,
       email: row.email,
+      mulai_sewa: row.mulai_sewa ? row.mulai_sewa.slice(0, 10) : "",
+      selesai_sewa: row.selesai_sewa ? row.selesai_sewa.slice(0, 10) : "",
     });
     setEditing(row);
     setIsSaving(false);
@@ -101,7 +130,7 @@ export default function PenghuniPage() {
 
   const handleKamarChange = (value: string) => {
     setForm({ ...form, nomor_kamar: value });
-    fetchKamarOptions(value);
+    fetchKamarOptions(value, editing === null);
   };
 
   const handleSubmit = async () => {
@@ -122,6 +151,16 @@ export default function PenghuniPage() {
 
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       toast.error("Email tidak valid");
+      return;
+    }
+
+    if (!form.mulai_sewa || !form.selesai_sewa) {
+      toast.error("Tanggal sewa wajib diisi");
+      return;
+    }
+
+    if (new Date(form.selesai_sewa) < new Date(form.mulai_sewa)) {
+      toast.error("Selesai sewa harus setelah mulai sewa");
       return;
     }
 
@@ -148,6 +187,48 @@ export default function PenghuniPage() {
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleStop = async (row: Penghuni) => {
+    if (!confirm("Hentikan sewa penghuni ini?")) return;
+    try {
+      await apiClient.post(`/penghuni/${row.id}/stop`);
+      fetchPenghuni();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const openExtend = (row: Penghuni) => {
+    setExtendRow(row);
+    setExtendDate(row.selesai_sewa ? row.selesai_sewa.slice(0, 10) : new Date().toISOString().slice(0, 10));
+    setIsExtendOpen(true);
+  };
+
+  const handleExtend = async () => {
+    if (!extendRow) return;
+    try {
+      await apiClient.put(`/penghuni/${extendRow.id}`, {
+        selesai_sewa: extendDate,
+      });
+      setIsExtendOpen(false);
+      setExtendRow(null);
+      fetchPenghuni();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getStatusSewa = (selesai: string | null) => {
+    if (!selesai) return "";
+    const selesaiDate = new Date(selesai);
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const gmt7 = new Date(utc + 7 * 60 * 60000);
+    const diff = (selesaiDate.getTime() - gmt7.getTime()) / (1000 * 60 * 60 * 24);
+    if (diff > 14) return "panjang";
+    if (diff > 0) return "hampir habis";
+    return "habis";
   };
 
   return (
@@ -187,6 +268,9 @@ export default function PenghuniPage() {
               <th>Nomor Kamar</th>
               <th>Nomor Telepon</th>
               <th>Email</th>
+              <th>Mulai Sewa</th>
+              <th>Selesai Sewa</th>
+              <th>Status Sewa</th>
               <th></th>
             </tr>
             </thead>
@@ -197,6 +281,23 @@ export default function PenghuniPage() {
                 <td>{p.nomor_kamar}</td>
                 <td>{p.nomor_telepon}</td>
                 <td>{p.email}</td>
+                <td>{formatDate(p.mulai_sewa)}</td>
+                <td>{formatDate(p.selesai_sewa)}</td>
+                <td>
+                  {p.selesai_sewa && (
+                    <span
+                      className={`btn btn-xs text-white ${
+                        getStatusSewa(p.selesai_sewa) === "habis"
+                          ? "btn-error"
+                          : getStatusSewa(p.selesai_sewa) === "hampir habis"
+                          ? "btn-warning"
+                          : "btn-success"
+                      }`}
+                    >
+                      {getStatusSewa(p.selesai_sewa)}
+                    </span>
+                  )}
+                </td>
                 <td>
                   <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-sm btn-ghost">
@@ -204,13 +305,19 @@ export default function PenghuniPage() {
                     </div>
                     <ul
                       tabIndex={0}
-                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28"
+                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40"
                     >
                       <li>
                         <a onClick={() => openEdit(p)}>Edit</a>
                       </li>
                       <li>
                         <a onClick={() => handleDelete(p)}>Delete</a>
+                      </li>
+                      <li>
+                        <a onClick={() => handleStop(p)}>Hentikan sewa</a>
+                      </li>
+                      <li>
+                        <a onClick={() => openExtend(p)}>Perpanjang sewa</a>
                       </li>
                     </ul>
                   </div>
@@ -219,7 +326,7 @@ export default function PenghuniPage() {
             ))}
             {penghuni.length === 0 && (
               <tr>
-                <td colSpan={5} className="text-center">
+                <td colSpan={8} className="text-center">
                   No data
                 </td>
               </tr>
@@ -285,8 +392,87 @@ export default function PenghuniPage() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
+          <input
+            type="date"
+            className="input input-bordered w-full"
+            placeholder="Mulai Sewa"
+            value={form.mulai_sewa}
+            onChange={(e) => setForm({ ...form, mulai_sewa: e.target.value })}
+          />
+          <input
+            type="date"
+            className="input input-bordered w-full"
+            placeholder="Selesai Sewa"
+            value={form.selesai_sewa}
+            onChange={(e) => setForm({ ...form, selesai_sewa: e.target.value })}
+          />
           <button className="btn btn-primary w-full" onClick={handleSubmit} disabled={isSaving}>
             {isSaving && <span className="loading loading-spinner loading-xs"></span>}
+            Save
+          </button>
+        </div>
+      </Modal>
+      <Modal
+        isModalOpen={isExtendOpen}
+        setIsModalOpen={setIsExtendOpen}
+        title="Perpanjang Sewa"
+      >
+        <div className="space-y-4">
+          <input
+            type="date"
+            className="input input-bordered w-full"
+            value={extendDate}
+            onChange={(e) => setExtendDate(e.target.value)}
+          />
+          <div className="flex gap-2">
+            <button
+              className="btn btn-sm"
+              onClick={() =>
+                setExtendDate(
+                  new Date(
+                    new Date(extendDate).getTime() + 7 * 24 * 60 * 60 * 1000
+                  )
+                    .toISOString()
+                    .slice(0, 10)
+                )
+              }
+            >
+              7 hari
+            </button>
+            <button
+              className="btn btn-sm"
+              onClick={() =>
+                setExtendDate(
+                  new Date(
+                    new Date(extendDate).setMonth(
+                      new Date(extendDate).getMonth() + 1
+                    )
+                  )
+                    .toISOString()
+                    .slice(0, 10)
+                )
+              }
+            >
+              1 bulan
+            </button>
+            <button
+              className="btn btn-sm"
+              onClick={() =>
+                setExtendDate(
+                  new Date(
+                    new Date(extendDate).setFullYear(
+                      new Date(extendDate).getFullYear() + 1
+                    )
+                  )
+                    .toISOString()
+                    .slice(0, 10)
+                )
+              }
+            >
+              1 tahun
+            </button>
+          </div>
+          <button className="btn btn-primary w-full" onClick={handleExtend}>
             Save
           </button>
         </div>

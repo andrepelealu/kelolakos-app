@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const q = searchParams.get("q") || "";
+  const status = searchParams.get("status") || "";
 
   const from = (page - 1) * limit;
   const to = from + limit - 1;
@@ -19,6 +20,10 @@ export async function GET(req: NextRequest) {
     .select("*", { count: "exact" })
     .is("deleted_at", null)
     .range(from, to);
+
+  if (status) {
+    query = query.eq("status", status);
+  }
 
   if (q) {
     const like = `%${q}%`;
@@ -55,6 +60,19 @@ export async function POST(req: NextRequest) {
   const allowedStatus = ["terisi", "kosong", "booked"];
   if (body.status && !allowedStatus.includes(body.status)) {
     return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+  }
+
+  const { count: exist } = await supabase
+    .from("kamar")
+    .select("id", { count: "exact", head: true })
+    .eq("nomor_kamar", body.nomor_kamar)
+    .is("deleted_at", null);
+
+  if (exist && exist > 0) {
+    return NextResponse.json(
+      { error: "Nomor kamar sudah ada" },
+      { status: 400 }
+    );
   }
 
   const { data, error } = await supabase
