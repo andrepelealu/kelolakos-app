@@ -6,6 +6,23 @@ import apiClient from "@/libs/api";
 import { Penghuni } from "@/types";
 import toast from "react-hot-toast";
 
+const DotsIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-4 h-4"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+    />
+  </svg>
+);
+
 interface FormData {
   nama: string;
   nomor_kamar: string;
@@ -156,16 +173,23 @@ export default function PenghuniPage() {
                 <td>{p.nomor_kamar}</td>
                 <td>{p.nomor_telepon}</td>
                 <td>{p.email}</td>
-                <td className="flex gap-2">
-                  <button className="btn btn-sm" onClick={() => openEdit(p)}>
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-sm btn-error"
-                    onClick={() => handleDelete(p)}
-                  >
-                    Delete
-                  </button>
+                <td>
+                  <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="btn btn-sm btn-ghost">
+                      <DotsIcon />
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28"
+                    >
+                      <li>
+                        <a onClick={() => openEdit(p)}>Edit</a>
+                      </li>
+                      <li>
+                        <a onClick={() => handleDelete(p)}>Delete</a>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}
