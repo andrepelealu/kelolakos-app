@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/libs/supabase/server";
 import config from "@/config";
+import ButtonAccount from "@/components/ButtonAccount";
 
 // This is a server-side component to ensure the user is logged in.
 // If not, it will redirect to the login page.
@@ -26,8 +27,8 @@ export default async function LayoutPrivate({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-60 bg-base-200 p-4">
-        <ul className="menu space-y-2">
+      <aside className="w-60 bg-base-200 p-4 hidden md:block">
+        <ul className="menu rounded-box space-y-2">
           <li>
             <Link href="/dashboard">Dashboard</Link>
           </li>
@@ -42,7 +43,12 @@ export default async function LayoutPrivate({
           </li>
         </ul>
       </aside>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 flex flex-col">
+        <header className="sticky top-0 z-10 bg-base-100 p-4 shadow flex justify-end">
+          <ButtonAccount />
+        </header>
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 }
