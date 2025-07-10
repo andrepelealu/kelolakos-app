@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/libs/supabase/server";
 import config from "@/config";
@@ -23,5 +24,25 @@ export default async function LayoutPrivate({
     redirect(config.auth.loginUrl);
   }
 
-  return <>{children}</>;
+  return (
+    <div className="flex min-h-screen">
+      <aside className="w-60 bg-base-200 p-4">
+        <ul className="menu space-y-2">
+          <li>
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link href="/dashboard/penghuni">Penghuni</Link>
+          </li>
+          <li>
+            <Link href="/dashboard/kamar">Kamar</Link>
+          </li>
+          <li>
+            <Link href="/dashboard/tagihan">Tagihan</Link>
+          </li>
+        </ul>
+      </aside>
+      <div className="flex-1">{children}</div>
+    </div>
+  );
 }
