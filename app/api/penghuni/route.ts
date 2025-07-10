@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
       nomor_kamar: body.nomor_kamar,
       nomor_telepon: body.nomor_telepon,
       email: body.email,
-      user_id: user?.id ?? null,
     })
     .select()
     .single();
