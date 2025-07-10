@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/libs/supabase/server";
+import { createAdminClient } from "@/libs/supabase/admin";
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = createClient();
+  const supabase = createAdminClient();
   const body = await req.json();
 
   const { data, error } = await supabase
@@ -31,7 +31,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = createClient();
+  const supabase = createAdminClient();
   const { error } = await supabase
     .from("penghuni")
     .update({ deleted_at: new Date().toISOString() })

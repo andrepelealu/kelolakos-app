@@ -5,9 +5,7 @@ import { createAdminClient } from "@/libs/supabase/admin";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  const supabase = process.env.SUPABASE_SERVICE_ROLE_KEY
-    ? createAdminClient()
-    : createClient();
+  const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("penghuni")
     .select("*")
@@ -21,7 +19,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = createClient();
+  const supabaseUser = createClient();
+  const {
+    data: { user },
+  } = await supabaseUser.auth.getUser();
+
+  const supabase = createAdminClient();
   const body = await req.json();
 
   const { data, error } = await supabase
@@ -31,6 +34,7 @@ export async function POST(req: NextRequest) {
       nomor_kamar: body.nomor_kamar,
       nomor_telepon: body.nomor_telepon,
       email: body.email,
+      user_id: user?.id ?? null,
     })
     .select()
     .single();
