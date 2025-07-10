@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/libs/next-auth";
+import { createClient } from "@/libs/supabase/server";
 import config from "@/config";
 
 // This is a server-side component to ensure the user is logged in.
@@ -14,9 +13,13 @@ export default async function LayoutPrivate({
 }: {
   children: ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const supabase = createClient();
 
-  if (!session) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
     redirect(config.auth.loginUrl);
   }
 
