@@ -60,6 +60,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  if (!body.nomor_kamar) {
+    return NextResponse.json(
+      { error: "Nomor kamar is required" },
+      { status: 400 }
+    );
+  }
+
   if (body.email && !emailRegex.test(body.email)) {
     return NextResponse.json({ error: "Invalid email" }, { status: 400 });
   }
@@ -67,6 +74,20 @@ export async function POST(req: NextRequest) {
   if (!phoneRegex.test(body.nomor_telepon)) {
     return NextResponse.json(
       { error: "Nomor telepon must start with 62 and contain digits only" },
+      { status: 400 }
+    );
+  }
+
+  const { data: kamar, error: kamarError } = await supabase
+    .from("kamar")
+    .select("id")
+    .eq("nomor_kamar", body.nomor_kamar)
+    .is("deleted_at", null)
+    .single();
+
+  if (kamarError || !kamar) {
+    return NextResponse.json(
+      { error: "Nomor kamar tidak valid" },
       { status: 400 }
     );
   }
@@ -81,6 +102,13 @@ export async function POST(req: NextRequest) {
     })
     .select()
     .single();
+
+  if (!error) {
+    await supabase
+      .from("kamar")
+      .update({ status: "terisi" })
+      .eq("id", kamar.id);
+  }
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

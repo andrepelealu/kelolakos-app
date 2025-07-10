@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
-import { Penghuni } from "@/types";
+import { Penghuni, Kamar } from "@/types";
 import toast from "react-hot-toast";
 
 const DotsIcon = () => (
@@ -46,6 +46,18 @@ export default function PenghuniPage() {
   });
   const [editing, setEditing] = useState<Penghuni | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [kamarOptions, setKamarOptions] = useState<Kamar[]>([]);
+
+  const fetchKamarOptions = async (q: string) => {
+    try {
+      const res: { data: Kamar[] } = await apiClient.get("/kamar", {
+        params: { page: 1, limit: 10, q },
+      });
+      setKamarOptions(res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const fetchPenghuni = async () => {
     setIsLoading(true);
@@ -70,6 +82,7 @@ export default function PenghuniPage() {
     setForm({ nama: "", nomor_kamar: "", nomor_telepon: "", email: "" });
     setEditing(null);
     setIsSaving(false);
+    fetchKamarOptions("");
     setIsModalOpen(true);
   };
 
@@ -82,12 +95,23 @@ export default function PenghuniPage() {
     });
     setEditing(row);
     setIsSaving(false);
+    fetchKamarOptions(row.nomor_kamar);
     setIsModalOpen(true);
+  };
+
+  const handleKamarChange = (value: string) => {
+    setForm({ ...form, nomor_kamar: value });
+    fetchKamarOptions(value);
   };
 
   const handleSubmit = async () => {
     if (!form.nama) {
       toast.error("Nama wajib diisi");
+      return;
+    }
+
+    if (!form.nomor_kamar) {
+      toast.error("Nomor kamar wajib diisi");
       return;
     }
 
@@ -238,11 +262,17 @@ export default function PenghuniPage() {
             onChange={(e) => setForm({ ...form, nama: e.target.value })}
           />
           <input
+            list="nomor-kamar-options"
             className="input input-bordered w-full"
             placeholder="Nomor Kamar"
             value={form.nomor_kamar}
-            onChange={(e) => setForm({ ...form, nomor_kamar: e.target.value })}
+            onChange={(e) => handleKamarChange(e.target.value)}
           />
+          <datalist id="nomor-kamar-options">
+            {kamarOptions.map((k) => (
+              <option key={k.id} value={k.nomor_kamar} />
+            ))}
+          </datalist>
           <input
             className="input input-bordered w-full"
             placeholder="Nomor Telepon"
