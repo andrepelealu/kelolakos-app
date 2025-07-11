@@ -51,8 +51,10 @@ export default function PenghuniPage() {
   const limit = 10;
   const [search, setSearch] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("");
-  const [mulaiFilter, setMulaiFilter] = useState<string>("");
-  const [selesaiFilter, setSelesaiFilter] = useState<string>("");
+  const [mulaiStartFilter, setMulaiStartFilter] = useState<string>("");
+  const [mulaiEndFilter, setMulaiEndFilter] = useState<string>("");
+  const [selesaiStartFilter, setSelesaiStartFilter] = useState<string>("");
+  const [selesaiEndFilter, setSelesaiEndFilter] = useState<string>("");
   const [form, setForm] = useState<FormData>({
     nama: "",
     nomor_kamar: "",
@@ -86,8 +88,10 @@ export default function PenghuniPage() {
     try {
       const params: Record<string, any> = { page, limit, q: search };
       if (statusFilter) params.status = statusFilter;
-      if (mulaiFilter) params.mulai_sewa = mulaiFilter;
-      if (selesaiFilter) params.selesai_sewa = selesaiFilter;
+      if (mulaiStartFilter) params.mulai_sewa_start = mulaiStartFilter;
+      if (mulaiEndFilter) params.mulai_sewa_end = mulaiEndFilter;
+      if (selesaiStartFilter) params.selesai_sewa_start = selesaiStartFilter;
+      if (selesaiEndFilter) params.selesai_sewa_end = selesaiEndFilter;
       const res: { data: Penghuni[]; count: number } = await apiClient.get(
         "/penghuni",
         { params }
@@ -102,7 +106,15 @@ export default function PenghuniPage() {
 
   useEffect(() => {
     fetchPenghuni();
-  }, [page, search, statusFilter, mulaiFilter, selesaiFilter]);
+  }, [
+    page,
+    search,
+    statusFilter,
+    mulaiStartFilter,
+    mulaiEndFilter,
+    selesaiStartFilter,
+    selesaiEndFilter,
+  ]);
 
   const openAdd = () => {
     const today = new Date().toISOString().slice(0, 10);
@@ -226,13 +238,17 @@ export default function PenghuniPage() {
     }
   };
 
-  const getStatusSewa = (selesai: string | null) => {
-    if (!selesai) return "";
-    const selesaiDate = new Date(selesai);
+  const getStatusSewa = (mulai: string | null, selesai: string | null) => {
     const now = new Date();
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const gmt7 = new Date(utc + 7 * 60 * 60000);
-    const diff = (selesaiDate.getTime() - gmt7.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (mulai && new Date(mulai) > gmt7) return "akan datang";
+
+    if (!selesai) return "";
+    const selesaiDate = new Date(selesai);
+    const diff =
+      (selesaiDate.getTime() - gmt7.getTime()) / (1000 * 60 * 60 * 24);
     if (diff > 14) return "panjang";
     if (diff > 0) return "hampir habis";
     return "habis";
@@ -273,25 +289,72 @@ export default function PenghuniPage() {
           <option value="panjang">Panjang</option>
           <option value="hampir habis">Hampir habis</option>
           <option value="habis">Habis</option>
+          <option value="akan datang">Akan Datang</option>
         </select>
-        <input
-          type="date"
-          className="input input-bordered"
-          value={mulaiFilter}
-          onChange={(e) => {
-            setMulaiFilter(e.target.value);
-            setPage(1);
-          }}
-        />
-        <input
-          type="date"
-          className="input input-bordered"
-          value={selesaiFilter}
-          onChange={(e) => {
-            setSelesaiFilter(e.target.value);
-            setPage(1);
-          }}
-        />
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-outline">
+            {mulaiStartFilter || mulaiEndFilter
+              ? `${mulaiStartFilter || "..."} - ${mulaiEndFilter || "..."}`
+              : "Mulai Sewa"}
+          </div>
+          <div
+            tabIndex={0}
+            className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-2"
+          >
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              placeholder="Mulai dari"
+              value={mulaiStartFilter}
+              onChange={(e) => {
+                setMulaiStartFilter(e.target.value);
+                setPage(1);
+              }}
+            />
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              placeholder="Mulai sampai"
+              value={mulaiEndFilter}
+              onChange={(e) => {
+                setMulaiEndFilter(e.target.value);
+                setPage(1);
+              }}
+            />
+          </div>
+        </div>
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-outline">
+            {selesaiStartFilter || selesaiEndFilter
+              ? `${selesaiStartFilter || "..."} - ${selesaiEndFilter || "..."}`
+              : "Selesai Sewa"}
+          </div>
+          <div
+            tabIndex={0}
+            className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-2"
+          >
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              placeholder="Selesai dari"
+              value={selesaiStartFilter}
+              onChange={(e) => {
+                setSelesaiStartFilter(e.target.value);
+                setPage(1);
+              }}
+            />
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              placeholder="Selesai sampai"
+              value={selesaiEndFilter}
+              onChange={(e) => {
+                setSelesaiEndFilter(e.target.value);
+                setPage(1);
+              }}
+            />
+          </div>
+        </div>
       </div>
       <div className="overflow-x-auto">
         {isLoading ? (
@@ -322,17 +385,22 @@ export default function PenghuniPage() {
                 <td>{formatDate(p.mulai_sewa)}</td>
                 <td>{formatDate(p.selesai_sewa)}</td>
                 <td>
-                  {p.selesai_sewa && (
+                  {(p.mulai_sewa || p.selesai_sewa) && (
                     <span
                       className={`btn btn-xs text-white ${
-                        getStatusSewa(p.selesai_sewa) === "habis"
+                        getStatusSewa(p.mulai_sewa, p.selesai_sewa) ===
+                        "habis"
                           ? "btn-error"
-                          : getStatusSewa(p.selesai_sewa) === "hampir habis"
+                          : getStatusSewa(p.mulai_sewa, p.selesai_sewa) ===
+                            "hampir habis"
                           ? "btn-warning"
+                          : getStatusSewa(p.mulai_sewa, p.selesai_sewa) ===
+                            "akan datang"
+                          ? "btn-info"
                           : "btn-success"
                       }`}
                     >
-                      {getStatusSewa(p.selesai_sewa)}
+                      {getStatusSewa(p.mulai_sewa, p.selesai_sewa)}
                     </span>
                   )}
                 </td>
@@ -430,20 +498,32 @@ export default function PenghuniPage() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
-          <input
-            type="date"
-            className="input input-bordered w-full"
-            placeholder="Mulai Sewa"
-            value={form.mulai_sewa}
-            onChange={(e) => setForm({ ...form, mulai_sewa: e.target.value })}
-          />
-          <input
-            type="date"
-            className="input input-bordered w-full"
-            placeholder="Selesai Sewa"
-            value={form.selesai_sewa}
-            onChange={(e) => setForm({ ...form, selesai_sewa: e.target.value })}
-          />
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Mulai Sewa</span>
+            </div>
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              value={form.mulai_sewa}
+              onChange={(e) =>
+                setForm({ ...form, mulai_sewa: e.target.value })
+              }
+            />
+          </label>
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Selesai Sewa</span>
+            </div>
+            <input
+              type="date"
+              className="input input-bordered w-full"
+              value={form.selesai_sewa}
+              onChange={(e) =>
+                setForm({ ...form, selesai_sewa: e.target.value })
+              }
+            />
+          </label>
           <button className="btn btn-primary w-full" onClick={handleSubmit} disabled={isSaving}>
             {isSaving && <span className="loading loading-spinner loading-xs"></span>}
             Save

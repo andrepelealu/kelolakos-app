@@ -10,8 +10,10 @@ export async function GET(req: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const q = searchParams.get("q") || "";
-  const mulaiSewa = searchParams.get("mulai_sewa") || "";
-  const selesaiSewa = searchParams.get("selesai_sewa") || "";
+  const mulaiSewaStart = searchParams.get("mulai_sewa_start") || "";
+  const mulaiSewaEnd = searchParams.get("mulai_sewa_end") || "";
+  const selesaiSewaStart = searchParams.get("selesai_sewa_start") || "";
+  const selesaiSewaEnd = searchParams.get("selesai_sewa_end") || "";
   const status = searchParams.get("status") || "";
 
   const from = (page - 1) * limit;
@@ -30,18 +32,28 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  if (mulaiSewa) {
-    query = query.gte("mulai_sewa", mulaiSewa);
+  if (mulaiSewaStart) {
+    query = query.gte("mulai_sewa", mulaiSewaStart);
   }
 
-  if (selesaiSewa) {
-    query = query.lte("selesai_sewa", selesaiSewa);
+  if (mulaiSewaEnd) {
+    query = query.lte("mulai_sewa", mulaiSewaEnd);
+  }
+
+  if (selesaiSewaStart) {
+    query = query.gte("selesai_sewa", selesaiSewaStart);
+  }
+
+  if (selesaiSewaEnd) {
+    query = query.lte("selesai_sewa", selesaiSewaEnd);
   }
 
   if (status) {
-    const today = new Date();
-    const isoToday = today.toISOString().slice(0, 10);
-    const iso14 = new Date(today.getTime() + 14 * 24 * 60 * 60 * 1000)
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const gmt7 = new Date(utc + 7 * 60 * 60000);
+    const isoToday = gmt7.toISOString().slice(0, 10);
+    const iso14 = new Date(gmt7.getTime() + 14 * 24 * 60 * 60 * 1000)
       .toISOString()
       .slice(0, 10);
 
@@ -51,6 +63,8 @@ export async function GET(req: NextRequest) {
       query = query.gt("selesai_sewa", isoToday).lte("selesai_sewa", iso14);
     } else if (status === "panjang") {
       query = query.gt("selesai_sewa", iso14);
+    } else if (status === "akan datang") {
+      query = query.gt("mulai_sewa", isoToday);
     }
   }
 
@@ -147,9 +161,14 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (!error) {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const gmt7 = new Date(utc + 7 * 60 * 60000);
+    const statusKamar = new Date(body.mulai_sewa) > gmt7 ? "booked" : "terisi";
+
     await supabase
       .from("kamar")
-      .update({ status: "terisi" })
+      .update({ status: statusKamar })
       .eq("id", kamar.id);
   }
 
