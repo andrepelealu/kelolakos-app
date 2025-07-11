@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
-import { Tagihan, Kamar } from "@/types";
+import { Tagihan, Kamar, AddOn } from "@/types";
 import toast from "react-hot-toast";
 
 const formatRupiah = (value: number) =>
@@ -57,6 +57,8 @@ export default function TagihanPage() {
   const [editing, setEditing] = useState<Tagihan | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [kamarOptions, setKamarOptions] = useState<Kamar[]>([]);
+  const [addOnOptions, setAddOnOptions] = useState<AddOn[]>([]);
+  const [selectedAddOns, setSelectedAddOns] = useState<{ id: string; qty: number }[]>([]);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const fetchTagihan = async () => {
@@ -86,6 +88,17 @@ export default function TagihanPage() {
     }
   };
 
+  const fetchAddOnOptions = async () => {
+    try {
+      const res: { data: AddOn[] } = await apiClient.get("/add-on", {
+        params: { page: 1, limit: 100 },
+      });
+      setAddOnOptions(res.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchTagihan();
   }, [page, search]);
@@ -108,6 +121,14 @@ export default function TagihanPage() {
     }));
   }, [form.harga_kamar, form.add_on, form.denda]);
 
+  useEffect(() => {
+    const sum = selectedAddOns.reduce((acc, item) => {
+      const found = addOnOptions.find((a) => a.id === item.id);
+      return acc + (found ? found.harga * item.qty : 0);
+    }, 0);
+    setForm((f) => ({ ...f, add_on: String(sum) }));
+  }, [selectedAddOns, addOnOptions]);
+
   const openAdd = () => {
     const today = new Date().toISOString().slice(0, 10);
     setForm({
@@ -123,9 +144,11 @@ export default function TagihanPage() {
       total_tagihan: "0",
       auto_invoice: true,
     });
+    setSelectedAddOns([]);
     setEditing(null);
     setIsSaving(false);
     fetchKamarOptions("");
+    fetchAddOnOptions();
     setOpenMenu(null);
     setIsModalOpen(true);
   };
@@ -149,6 +172,10 @@ export default function TagihanPage() {
     setEditing(row);
     setIsSaving(false);
     fetchKamarOptions(row.kamar?.nomor_kamar || "");
+    fetchAddOnOptions();
+    setSelectedAddOns(
+      row.add_ons?.map((a) => ({ id: a.add_on_id, qty: a.qty })) || []
+    );
     setOpenMenu(null);
     setIsModalOpen(true);
   };
@@ -195,6 +222,7 @@ export default function TagihanPage() {
         tanggal_jatuh_tempo: form.tanggal_jatuh_tempo,
         denda: Number(form.denda) || 0,
         total_tagihan: Number(form.total_tagihan) || 0,
+        add_ons: selectedAddOns,
       };
       if (editing) {
         await apiClient.put(`/tagihan/${editing.id}`, payload);
@@ -304,12 +332,15 @@ export default function TagihanPage() {
                       </svg>
                     </button>
                     {openMenu === t.id && (
-                      <ul className="absolute right-0 z-[1] menu p-2 shadow bg-base-100 rounded-box w-28">
+                      <ul className="absolute right-0 z-[1] menu p-2 shadow bg-base-100 rounded-box w-32">
                         <li>
                           <a onClick={() => openEdit(t)}>Edit</a>
                         </li>
                         <li>
                           <a onClick={() => handleDelete(t)}>Delete</a>
+                        </li>
+                        <li>
+                          <a href={`/dashboard/tagihan/${t.id}`}>Detail</a>
                         </li>
                       </ul>
                     )}
@@ -410,13 +441,49 @@ export default function TagihanPage() {
             <div className="label">
               <span className="label-text">Add-on</span>
             </div>
-            <input
-              type="number"
-              className="input input-bordered w-full"
-              placeholder="Add-on"
-              value={form.add_on}
-              onChange={(e) => setForm({ ...form, add_on: e.target.value })}
-            />
+            <div className="space-y-2 max-h-40 overflow-y-auto">
+              {addOnOptions.map((a) => {
+                const selected = selectedAddOns.find((s) => s.id === a.id);
+                return (
+                  <label key={a.id} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={!!selected}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedAddOns([...selectedAddOns, { id: a.id, qty: 1 }]);
+                        } else {
+                          setSelectedAddOns(selectedAddOns.filter((i) => i.id !== a.id));
+                        }
+                      }}
+                    />
+                    <span className="label-text">
+                      {a.nama} - {formatRupiah(a.harga)} / {a.satuan}
+                    </span>
+                    {selected && (
+                      <input
+                        type="number"
+                        className="input input-bordered input-sm w-16"
+                        value={selected.qty}
+                        min={1}
+                        onChange={(e) => {
+                          const qty = Number(e.target.value) || 1;
+                          setSelectedAddOns(
+                            selectedAddOns.map((s) =>
+                              s.id === a.id ? { ...s, qty } : s
+                            )
+                          );
+                        }}
+                      />
+                    )}
+                  </label>
+                );
+              })}
+            </div>
+            <div className="label">
+              <span className="label-text-alt">Total Add-on: {formatRupiah(Number(form.add_on) || 0)}</span>
+            </div>
           </label>
           <label className="form-control w-full">
             <div className="label">

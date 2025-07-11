@@ -103,5 +103,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  if (data && Array.isArray(body.add_ons) && body.add_ons.length > 0) {
+    const rows = body.add_ons.map((item: any) => ({
+      tagihan_id: data.id,
+      add_on_id: item.id,
+      qty: item.qty,
+    }));
+    await supabase.from("tagihan_addon").insert(rows);
+  }
+
   return NextResponse.json(data);
 }

@@ -41,6 +41,9 @@ export default async function LayoutPrivate({
           <li>
             <Link href="/dashboard/tagihan">Tagihan</Link>
           </li>
+          <li>
+            <Link href="/dashboard/add-on">Add-on</Link>
+          </li>
         </ul>
       </aside>
       <div className="flex-1 flex flex-col">
