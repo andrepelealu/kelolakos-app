@@ -4,13 +4,8 @@ import { useEffect, useState } from "react";
 import apiClient from "@/libs/api";
 import { Tagihan } from "@/types";
 import { useParams, useRouter } from "next/navigation";
+import { formatRupiah, formatDate } from "@/libs/formatter";
 
-const formatRupiah = (value: number) =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(value);
 
 export default function TagihanDetailPage() {
   const params = useParams();
@@ -86,11 +81,11 @@ export default function TagihanDetailPage() {
           </tr>
           <tr>
             <th>Tanggal Terbit</th>
-            <td>{data.tanggal_terbit}</td>
+            <td>{formatDate(data.tanggal_terbit)}</td>
           </tr>
           <tr>
             <th>Tanggal Jatuh Tempo</th>
-            <td>{data.tanggal_jatuh_tempo}</td>
+            <td>{formatDate(data.tanggal_jatuh_tempo)}</td>
           </tr>
           <tr>
             <th>Denda</th>

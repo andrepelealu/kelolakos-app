@@ -5,16 +5,7 @@ import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
 import { Penghuni, Kamar } from "@/types";
 import toast from "react-hot-toast";
-
-const formatDate = (value: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  return date.toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
+import { formatDate } from "@/libs/formatter";
 
 const DotsIcon = () => (
   <svg

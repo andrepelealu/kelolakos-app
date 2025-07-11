@@ -5,6 +5,7 @@ import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
 import { Kamar } from "@/types";
 import toast from "react-hot-toast";
+import { formatRupiah } from "@/libs/formatter";
 
 const DotsIcon = () => (
   <svg
@@ -23,12 +24,6 @@ const DotsIcon = () => (
   </svg>
 );
 
-const formatRupiah = (value: number) =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(value);
 
 interface FormData {
   nomor_kamar: string;
@@ -283,11 +278,16 @@ export default function KamarPage() {
             onChange={(e) => setForm({ ...form, nomor_kamar: e.target.value })}
           />
           <input
-            type="number"
+            type="text"
             className="input input-bordered w-full"
             placeholder="Harga"
-            value={form.harga}
-            onChange={(e) => setForm({ ...form, harga: e.target.value })}
+            value={formatRupiah(Number(form.harga) || 0)}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                harga: e.target.value.replace(/[^0-9]/g, ""),
+              })
+            }
           />
           <select
             className="select select-bordered w-full"

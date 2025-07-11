@@ -5,13 +5,8 @@ import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
 import { Tagihan, Kamar, AddOn } from "@/types";
 import toast from "react-hot-toast";
+import { formatRupiah, formatDate } from "@/libs/formatter";
 
-const formatRupiah = (value: number) =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(value);
 
 interface FormData {
   nomor_invoice: string;
@@ -307,8 +302,8 @@ export default function TagihanPage() {
                   <td>{t.status_pembayaran}</td>
                   <td>{formatRupiah(t.add_on)}</td>
                   <td>{formatRupiah(t.kamar?.harga || 0)}</td>
-                  <td>{t.tanggal_terbit}</td>
-                  <td>{t.tanggal_jatuh_tempo}</td>
+                  <td>{formatDate(t.tanggal_terbit)}</td>
+                  <td>{formatDate(t.tanggal_jatuh_tempo)}</td>
                   <td>{formatRupiah(t.denda)}</td>
                   <td>{formatRupiah(t.total_tagihan)}</td>
                   <td className="relative">
@@ -490,12 +485,15 @@ export default function TagihanPage() {
               <span className="label-text">Harga Kamar</span>
             </div>
             <input
-              type="number"
+              type="text"
               className="input input-bordered w-full"
               placeholder="Harga Kamar"
-              value={form.harga_kamar}
+              value={formatRupiah(form.harga_kamar)}
               onChange={(e) =>
-                setForm({ ...form, harga_kamar: Number(e.target.value) })
+                setForm({
+                  ...form,
+                  harga_kamar: Number(e.target.value.replace(/[^0-9]/g, "")),
+                })
               }
             />
           </label>
@@ -528,11 +526,13 @@ export default function TagihanPage() {
               <span className="label-text">Denda</span>
             </div>
             <input
-              type="number"
+              type="text"
               className="input input-bordered w-full"
               placeholder="Denda"
-              value={form.denda}
-              onChange={(e) => setForm({ ...form, denda: e.target.value })}
+              value={formatRupiah(Number(form.denda) || 0)}
+              onChange={(e) =>
+                setForm({ ...form, denda: e.target.value.replace(/[^0-9]/g, "") })
+              }
             />
           </label>
           <label className="form-control w-full">
@@ -540,12 +540,15 @@ export default function TagihanPage() {
               <span className="label-text">Total Tagihan</span>
             </div>
             <input
-              type="number"
+              type="text"
               className="input input-bordered w-full"
               placeholder="Total Tagihan"
-              value={form.total_tagihan}
+              value={formatRupiah(Number(form.total_tagihan) || 0)}
               onChange={(e) =>
-                setForm({ ...form, total_tagihan: e.target.value })
+                setForm({
+                  ...form,
+                  total_tagihan: e.target.value.replace(/[^0-9]/g, ""),
+                })
               }
             />
           </label>
