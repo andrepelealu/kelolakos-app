@@ -1,4 +1,5 @@
 import type { Kamar } from "./kamar";
+import type { Penghuni } from "./penghuni";
 
 export interface Tagihan {
   id: string;
@@ -14,4 +15,5 @@ export interface Tagihan {
   created_at: string;
   updated_at: string;
   kamar?: Kamar;
+  penghuni?: Penghuni;
 }

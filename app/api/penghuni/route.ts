@@ -21,14 +21,14 @@ export async function GET(req: NextRequest) {
 
   let query = supabase
     .from("penghuni")
-    .select("*", { count: "exact" })
+    .select("*, kamar: kamar_id (nomor_kamar)", { count: "exact" })
     .is("deleted_at", null)
     .range(from, to);
 
   if (q) {
     const like = `%${q}%`;
     query = query.or(
-      `nama.ilike.${like},nomor_kamar.ilike.${like},nomor_telepon.ilike.${like},email.ilike.${like}`
+      `nama.ilike.${like},kamar.nomor_kamar.ilike.${like},nomor_telepon.ilike.${like},email.ilike.${like}`
     );
   }
 
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!body.nomor_kamar) {
+  if (!body.kamar_id) {
     return NextResponse.json(
       { error: "Nomor kamar is required" },
       { status: 400 }
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
   const { data: kamar, error: kamarError } = await supabase
     .from("kamar")
     .select("id")
-    .eq("nomor_kamar", body.nomor_kamar)
+    .eq("id", body.kamar_id)
     .is("deleted_at", null)
     .single();
 
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
     .from("penghuni")
     .insert({
       nama: body.nama,
-      nomor_kamar: body.nomor_kamar,
+      kamar_id: body.kamar_id,
       nomor_telepon: body.nomor_telepon,
       email: body.email,
       mulai_sewa: body.mulai_sewa,

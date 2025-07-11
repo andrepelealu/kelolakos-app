@@ -9,7 +9,7 @@ export async function POST(
 
   const { data: penghuni, error } = await supabase
     .from("penghuni")
-    .select("nomor_kamar")
+    .select("kamar_id")
     .eq("id", params.id)
     .single();
 
@@ -23,7 +23,7 @@ export async function POST(
   await supabase
     .from("kamar")
     .update({ status: "kosong" })
-    .eq("nomor_kamar", penghuni.nomor_kamar)
+    .eq("id", penghuni.kamar_id)
     .is("deleted_at", null);
 
   await supabase

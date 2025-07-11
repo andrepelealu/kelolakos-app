@@ -45,7 +45,14 @@ export async function PUT(
   }
 
   const updatePayload: any = {};
-  ["nama", "nomor_kamar", "nomor_telepon", "email", "mulai_sewa", "selesai_sewa"].forEach(
+  [
+    "nama",
+    "kamar_id",
+    "nomor_telepon",
+    "email",
+    "mulai_sewa",
+    "selesai_sewa",
+  ].forEach(
     (key) => {
       if (body[key] !== undefined) updatePayload[key] = body[key];
     }

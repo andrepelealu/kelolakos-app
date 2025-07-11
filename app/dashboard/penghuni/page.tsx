@@ -35,6 +35,7 @@ const DotsIcon = () => (
 
 interface FormData {
   nama: string;
+  kamar_id: string;
   nomor_kamar: string;
   nomor_telepon: string;
   email: string;
@@ -57,6 +58,7 @@ export default function PenghuniPage() {
   const [selesaiEndFilter, setSelesaiEndFilter] = useState<string>("");
   const [form, setForm] = useState<FormData>({
     nama: "",
+    kamar_id: "",
     nomor_kamar: "",
     nomor_telepon: "",
     email: "",
@@ -120,6 +122,7 @@ export default function PenghuniPage() {
     const today = new Date().toISOString().slice(0, 10);
     setForm({
       nama: "",
+      kamar_id: "",
       nomor_kamar: "",
       nomor_telepon: "",
       email: "",
@@ -135,7 +138,8 @@ export default function PenghuniPage() {
   const openEdit = (row: Penghuni) => {
     setForm({
       nama: row.nama,
-      nomor_kamar: row.nomor_kamar,
+      kamar_id: row.kamar_id,
+      nomor_kamar: row.kamar?.nomor_kamar || "",
       nomor_telepon: row.nomor_telepon,
       email: row.email,
       mulai_sewa: row.mulai_sewa ? row.mulai_sewa.slice(0, 10) : "",
@@ -143,13 +147,19 @@ export default function PenghuniPage() {
     });
     setEditing(row);
     setIsSaving(false);
-    fetchKamarOptions(row.nomor_kamar);
+    fetchKamarOptions(row.kamar?.nomor_kamar || "");
     setIsModalOpen(true);
   };
 
   const handleKamarChange = (value: string) => {
     setForm({ ...form, nomor_kamar: value });
     fetchKamarOptions(value, editing === null);
+    const found = kamarOptions.find((k) => k.nomor_kamar === value);
+    if (found) {
+      setForm((f) => ({ ...f, kamar_id: found.id }));
+    } else {
+      setForm((f) => ({ ...f, kamar_id: "" }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -158,7 +168,7 @@ export default function PenghuniPage() {
       return;
     }
 
-    if (!form.nomor_kamar) {
+    if (!form.kamar_id) {
       toast.error("Nomor kamar wajib diisi");
       return;
     }
@@ -379,7 +389,7 @@ export default function PenghuniPage() {
             {penghuni.map((p) => (
               <tr key={p.id}>
                 <td>{p.nama}</td>
-                <td>{p.nomor_kamar}</td>
+                <td>{p.kamar?.nomor_kamar}</td>
                 <td>{p.nomor_telepon}</td>
                 <td>{p.email}</td>
                 <td>{formatDate(p.mulai_sewa)}</td>

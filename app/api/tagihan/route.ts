@@ -27,6 +27,23 @@ export async function GET(req: NextRequest) {
 
   const { data, count, error } = await query;
 
+  if (!error && data) {
+    const penghuniPromises = data.map((t) =>
+      supabase
+        .from("penghuni")
+        .select("id,nama,kamar_id")
+        .eq("kamar_id", t.kamar_id)
+        .is("deleted_at", null)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    );
+    const penghuniResults = await Promise.all(penghuniPromises);
+    penghuniResults.forEach((p, idx) => {
+      data[idx].penghuni = p.data || null;
+    });
+  }
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

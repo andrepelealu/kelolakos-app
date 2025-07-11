@@ -259,6 +259,7 @@ export default function TagihanPage() {
               <tr>
                 <th>Nomor Invoice</th>
                 <th>Nomor Kamar</th>
+                <th>Nama Penghuni</th>
                 <th>Status</th>
                 <th>Add-on</th>
                 <th>Harga Kamar</th>
@@ -274,6 +275,7 @@ export default function TagihanPage() {
                 <tr key={t.id}>
                   <td>{t.nomor_invoice}</td>
                   <td>{t.kamar?.nomor_kamar}</td>
+                  <td>{t.penghuni?.nama}</td>
                   <td>{t.status_pembayaran}</td>
                   <td>{formatRupiah(t.add_on)}</td>
                   <td>{formatRupiah(t.kamar?.harga || 0)}</td>
@@ -316,7 +318,7 @@ export default function TagihanPage() {
               ))}
               {tagihan.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="text-center">
+                  <td colSpan={11} className="text-center">
                     No data
                   </td>
                 </tr>
