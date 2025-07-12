@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/libs/supabase/admin";
+import { currentMonthDate } from "@/libs/formatter";
 
 const generateInvoice = (nomor_kamar: string, tanggal: string) => {
   const [year, month, day] = tanggal.split("-");
   return `inv/${nomor_kamar}/${day}${month}${year}`;
 };
+
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = createAdminClient();
@@ -67,18 +69,20 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       .maybeSingle();
 
     const selesai = penghuniRes.data?.selesai_sewa;
-    if (!selesai || selesai >= today) {
+    if (!selesai || selesai < today) {
       continue;
     }
 
-    const invoice = generateInvoice(k.nomor_kamar, template.tanggal_terbit);
+    const tanggalTerbit = currentMonthDate(template.tanggal_terbit);
+    const tanggalJatuh = currentMonthDate(template.tanggal_jatuh_tempo);
+    const invoice = generateInvoice(k.nomor_kamar, tanggalTerbit);
     await supabase.from("tagihan").insert({
       nomor_invoice: invoice,
       kamar_id: k.id,
       status_pembayaran: "belum bayar",
       add_on: addOnTotal,
-      tanggal_terbit: template.tanggal_terbit,
-      tanggal_jatuh_tempo: template.tanggal_jatuh_tempo,
+      tanggal_terbit: tanggalTerbit,
+      tanggal_jatuh_tempo: tanggalJatuh,
       denda: 0,
       total_tagihan: addOnTotal + (k.harga || 0),
     });

@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
-import { TemplateTagihan, AddOn, Kamar } from "@/types";
+import { TemplateTagihan, AddOn, Kamar, Penghuni } from "@/types";
 import toast from "react-hot-toast";
-import { formatDate, formatRupiah } from "@/libs/formatter";
+import { formatRupiah, currentMonthDate, dayOfMonth } from "@/libs/formatter";
 
 interface FormData {
   nama: string;
@@ -29,10 +29,11 @@ export default function TemplateTagihanPage() {
   const [kamarOptions, setKamarOptions] = useState<Kamar[]>([]);
   const [kamarPage, setKamarPage] = useState<number>(1);
   const kamarPageSize = 25;
+  const today = new Date().getDate().toString().padStart(2, "0");
   const [form, setForm] = useState<FormData>({
     nama: "",
-    tanggal_terbit: new Date().toISOString().slice(0, 10),
-    tanggal_jatuh_tempo: new Date().toISOString().slice(0, 10),
+    tanggal_terbit: today,
+    tanggal_jatuh_tempo: today,
     set_semua_kamar: true,
     kamar_ids: [],
     add_ons: [],
@@ -57,10 +58,29 @@ export default function TemplateTagihanPage() {
         params: { page: 1, limit: 100 },
       });
       setAddOnOptions(addOnRes.data);
+
       const kamarRes: { data: Kamar[] } = await apiClient.get("/kamar", {
         params: { page: 1, limit: 100 },
       });
-      setKamarOptions(kamarRes.data);
+      let kamars = kamarRes.data;
+
+      try {
+        const penghuniRes: { data: Penghuni[] } = await apiClient.get(
+          "/penghuni",
+          { params: { page: 1, limit: 1000 } }
+        );
+        const today = new Date().toISOString().slice(0, 10);
+        const activeIds = new Set(
+          penghuniRes.data
+            .filter((p) => !p.selesai_sewa || p.selesai_sewa >= today)
+            .map((p) => p.kamar_id)
+        );
+        kamars = kamars.filter((k) => activeIds.has(k.id));
+      } catch (e) {
+        console.error(e);
+      }
+
+      setKamarOptions(kamars);
     } catch (e) {
       console.error(e);
     }
@@ -73,8 +93,8 @@ export default function TemplateTagihanPage() {
   const openAdd = () => {
     setForm({
       nama: "",
-      tanggal_terbit: new Date().toISOString().slice(0, 10),
-      tanggal_jatuh_tempo: new Date().toISOString().slice(0, 10),
+      tanggal_terbit: new Date().getDate().toString().padStart(2, "0"),
+      tanggal_jatuh_tempo: new Date().getDate().toString().padStart(2, "0"),
       set_semua_kamar: true,
       kamar_ids: [],
       add_ons: [],
@@ -91,8 +111,8 @@ export default function TemplateTagihanPage() {
       const res: TemplateTagihan = await apiClient.get(`/template-tagihan/${row.id}`);
       setForm({
         nama: res.nama,
-        tanggal_terbit: res.tanggal_terbit.slice(0, 10),
-        tanggal_jatuh_tempo: res.tanggal_jatuh_tempo.slice(0, 10),
+        tanggal_terbit: res.tanggal_terbit.slice(8, 10),
+        tanggal_jatuh_tempo: res.tanggal_jatuh_tempo.slice(8, 10),
         set_semua_kamar: !res.kamars || res.kamars.length === 0,
         kamar_ids: res.kamars ? res.kamars.map((k) => k.id_kamar) : [],
         add_ons: res.add_ons ? res.add_ons.map((a) => a.id_add_on) : [],
@@ -122,8 +142,8 @@ export default function TemplateTagihanPage() {
     try {
       const payload = {
         nama: form.nama,
-        tanggal_terbit: form.tanggal_terbit,
-        tanggal_jatuh_tempo: form.tanggal_jatuh_tempo,
+        tanggal_terbit: currentMonthDate(form.tanggal_terbit),
+        tanggal_jatuh_tempo: currentMonthDate(form.tanggal_jatuh_tempo),
         set_semua_kamar: form.set_semua_kamar,
         kamar_ids: form.set_semua_kamar ? [] : form.kamar_ids,
         add_ons: form.add_ons,
@@ -201,8 +221,8 @@ export default function TemplateTagihanPage() {
               {templates.map((t) => (
                 <tr key={t.id}>
                   <td>{t.nama}</td>
-                  <td>{formatDate(t.tanggal_terbit)}</td>
-                  <td>{formatDate(t.tanggal_jatuh_tempo)}</td>
+                  <td>setiap tanggal {dayOfMonth(t.tanggal_terbit)}</td>
+                  <td>setiap tanggal {dayOfMonth(t.tanggal_jatuh_tempo)}</td>
                   <td className="flex gap-2">
                     <button className="btn btn-sm" onClick={() => handleGenerate(t)}>
                       Buat Tagihan Otomatis
@@ -249,7 +269,9 @@ export default function TemplateTagihanPage() {
               <span className="label-text">Tanggal Terbit</span>
             </div>
             <input
-              type="date"
+              type="number"
+              min="1"
+              max="31"
               className="input input-bordered w-full"
               value={form.tanggal_terbit}
               onChange={(e) => setForm({ ...form, tanggal_terbit: e.target.value })}
@@ -260,10 +282,14 @@ export default function TemplateTagihanPage() {
               <span className="label-text">Tanggal Jatuh Tempo</span>
             </div>
             <input
-              type="date"
+              type="number"
+              min="1"
+              max="31"
               className="input input-bordered w-full"
               value={form.tanggal_jatuh_tempo}
-              onChange={(e) => setForm({ ...form, tanggal_jatuh_tempo: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, tanggal_jatuh_tempo: e.target.value })
+              }
             />
           </label>
           <label className="flex items-center gap-2">
