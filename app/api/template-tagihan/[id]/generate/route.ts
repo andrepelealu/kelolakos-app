@@ -54,7 +54,23 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const addOnTotal = (addOns || []).reduce((acc, a) => acc + (a.harga || 0), 0);
 
+  const today = new Date().toISOString().slice(0, 10);
+
   for (const k of kamars) {
+    const penghuniRes = await supabase
+      .from("penghuni")
+      .select("selesai_sewa")
+      .eq("kamar_id", k.id)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const selesai = penghuniRes.data?.selesai_sewa;
+    if (!selesai || selesai >= today) {
+      continue;
+    }
+
     const invoice = generateInvoice(k.nomor_kamar, template.tanggal_terbit);
     await supabase.from("tagihan").insert({
       nomor_invoice: invoice,

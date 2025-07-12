@@ -34,6 +34,13 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient();
   const body = await req.json();
 
+  if (!body.nama) {
+    return NextResponse.json(
+      { error: "Nama template is required" },
+      { status: 400 }
+    );
+  }
+
   if (!body.tanggal_terbit) {
     return NextResponse.json({ error: "Tanggal terbit is required" }, { status: 400 });
   }
@@ -44,6 +51,7 @@ export async function POST(req: NextRequest) {
   const { data, error } = await supabase
     .from("template_tagihan")
     .insert({
+      nama: body.nama,
       tanggal_terbit: body.tanggal_terbit,
       tanggal_jatuh_tempo: body.tanggal_jatuh_tempo,
     })

@@ -45,7 +45,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   const body = await req.json();
 
   const updatePayload: any = {};
-  ["tanggal_terbit", "tanggal_jatuh_tempo"].forEach((key) => {
+  ["nama", "tanggal_terbit", "tanggal_jatuh_tempo"].forEach((key) => {
     if (body[key] !== undefined) updatePayload[key] = body[key];
   });
 

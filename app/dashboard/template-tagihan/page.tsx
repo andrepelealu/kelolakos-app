@@ -1,5 +1,8 @@
 "use client";
 
+// Ensure this page is always rendered dynamically to avoid 404 errors
+export const dynamic = "force-dynamic";
+
 import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
@@ -8,6 +11,7 @@ import toast from "react-hot-toast";
 import { formatDate, formatRupiah } from "@/libs/formatter";
 
 interface FormData {
+  nama: string;
   tanggal_terbit: string;
   tanggal_jatuh_tempo: string;
   set_semua_kamar: boolean;
@@ -23,7 +27,10 @@ export default function TemplateTagihanPage() {
   const [editing, setEditing] = useState<TemplateTagihan | null>(null);
   const [addOnOptions, setAddOnOptions] = useState<AddOn[]>([]);
   const [kamarOptions, setKamarOptions] = useState<Kamar[]>([]);
+  const [kamarPage, setKamarPage] = useState<number>(1);
+  const kamarPageSize = 25;
   const [form, setForm] = useState<FormData>({
+    nama: "",
     tanggal_terbit: new Date().toISOString().slice(0, 10),
     tanggal_jatuh_tempo: new Date().toISOString().slice(0, 10),
     set_semua_kamar: true,
@@ -65,6 +72,7 @@ export default function TemplateTagihanPage() {
 
   const openAdd = () => {
     setForm({
+      nama: "",
       tanggal_terbit: new Date().toISOString().slice(0, 10),
       tanggal_jatuh_tempo: new Date().toISOString().slice(0, 10),
       set_semua_kamar: true,
@@ -73,6 +81,7 @@ export default function TemplateTagihanPage() {
     });
     setEditing(null);
     setIsSaving(false);
+    setKamarPage(1);
     fetchOptions();
     setIsModalOpen(true);
   };
@@ -81,6 +90,7 @@ export default function TemplateTagihanPage() {
     try {
       const res: TemplateTagihan = await apiClient.get(`/template-tagihan/${row.id}`);
       setForm({
+        nama: res.nama,
         tanggal_terbit: res.tanggal_terbit.slice(0, 10),
         tanggal_jatuh_tempo: res.tanggal_jatuh_tempo.slice(0, 10),
         set_semua_kamar: !res.kamars || res.kamars.length === 0,
@@ -89,6 +99,7 @@ export default function TemplateTagihanPage() {
       });
       setEditing(row);
       setIsSaving(false);
+      setKamarPage(1);
       fetchOptions();
       setIsModalOpen(true);
     } catch (e) {
@@ -97,6 +108,11 @@ export default function TemplateTagihanPage() {
   };
 
   const handleSubmit = async () => {
+    if (!form.nama) {
+      toast.error("Nama template wajib diisi");
+      return;
+    }
+
     if (!form.tanggal_terbit || !form.tanggal_jatuh_tempo) {
       toast.error("Tanggal wajib diisi");
       return;
@@ -105,6 +121,7 @@ export default function TemplateTagihanPage() {
     setIsSaving(true);
     try {
       const payload = {
+        nama: form.nama,
         tanggal_terbit: form.tanggal_terbit,
         tanggal_jatuh_tempo: form.tanggal_jatuh_tempo,
         set_semua_kamar: form.set_semua_kamar,
@@ -149,6 +166,12 @@ export default function TemplateTagihanPage() {
     }
   };
 
+  const totalKamarPages = Math.ceil(kamarOptions.length / kamarPageSize) || 1;
+  const paginatedKamar = kamarOptions.slice(
+    (kamarPage - 1) * kamarPageSize,
+    kamarPage * kamarPageSize
+  );
+
   return (
     <main className="min-h-screen p-8 pb-24 space-y-6">
       <div className="flex justify-between items-center gap-2 flex-wrap">
@@ -168,6 +191,7 @@ export default function TemplateTagihanPage() {
           <table className="table w-full">
             <thead>
               <tr>
+                <th>Nama Template</th>
                 <th>Tanggal Terbit</th>
                 <th>Tanggal Jatuh Tempo</th>
                 <th></th>
@@ -176,6 +200,7 @@ export default function TemplateTagihanPage() {
             <tbody>
               {templates.map((t) => (
                 <tr key={t.id}>
+                  <td>{t.nama}</td>
                   <td>{formatDate(t.tanggal_terbit)}</td>
                   <td>{formatDate(t.tanggal_jatuh_tempo)}</td>
                   <td className="flex gap-2">
@@ -193,7 +218,7 @@ export default function TemplateTagihanPage() {
               ))}
               {templates.length === 0 && (
                 <tr>
-                  <td colSpan={3} className="text-center">
+                  <td colSpan={4} className="text-center">
                     No data
                   </td>
                 </tr>
@@ -208,6 +233,17 @@ export default function TemplateTagihanPage() {
         title={editing ? "Edit Template" : "Tambah Template"}
       >
         <div className="space-y-4">
+          <label className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Nama Template</span>
+            </div>
+            <input
+              className="input input-bordered w-full"
+              placeholder="Nama Template"
+              value={form.nama}
+              onChange={(e) => setForm({ ...form, nama: e.target.value })}
+            />
+          </label>
           <label className="form-control w-full">
             <div className="label">
               <span className="label-text">Tanggal Terbit</span>
@@ -242,23 +278,49 @@ export default function TemplateTagihanPage() {
           {!form.set_semua_kamar && (
             <div className="space-y-2">
               <span className="font-semibold">Pilih Kamar</span>
-              {kamarOptions.map((k) => (
-                <label key={k.id} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={form.kamar_ids.includes(k.id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setForm({ ...form, kamar_ids: [...form.kamar_ids, k.id] });
-                      } else {
-                        setForm({ ...form, kamar_ids: form.kamar_ids.filter((id) => id !== k.id) });
-                      }
-                    }}
-                  />
-                  <span className="label-text">{k.nomor_kamar}</span>
-                </label>
-              ))}
+              <div className="grid grid-cols-5 gap-2">
+                {paginatedKamar.map((k) => (
+                  <label key={k.id} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={form.kamar_ids.includes(k.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setForm({ ...form, kamar_ids: [...form.kamar_ids, k.id] });
+                        } else {
+                          setForm({
+                            ...form,
+                            kamar_ids: form.kamar_ids.filter((id) => id !== k.id),
+                          });
+                        }
+                      }}
+                    />
+                    <span className="label-text">{k.nomor_kamar}</span>
+                  </label>
+                ))}
+              </div>
+              {totalKamarPages > 1 && (
+                <div className="join mt-2">
+                  <button
+                    className="join-item btn btn-sm"
+                    disabled={kamarPage === 1}
+                    onClick={() => setKamarPage((p) => Math.max(1, p - 1))}
+                  >
+                    Prev
+                  </button>
+                  <button className="join-item btn btn-sm" disabled>
+                    Page {kamarPage}/{totalKamarPages}
+                  </button>
+                  <button
+                    className="join-item btn btn-sm"
+                    disabled={kamarPage === totalKamarPages}
+                    onClick={() => setKamarPage((p) => Math.min(totalKamarPages, p + 1))}
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
           )}
           <div className="space-y-2">

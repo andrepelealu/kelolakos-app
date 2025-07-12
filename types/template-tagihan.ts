@@ -3,6 +3,7 @@ import type { Kamar } from "./kamar";
 
 export interface TemplateTagihan {
   id: string;
+  nama: string;
   tanggal_terbit: string;
   tanggal_jatuh_tempo: string;
   deleted_at: string | null;
