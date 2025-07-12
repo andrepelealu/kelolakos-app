@@ -41,19 +41,25 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!body.tanggal_terbit) {
-    return NextResponse.json({ error: "Tanggal terbit is required" }, { status: 400 });
+  if (body.tanggal_terbit === undefined || body.tanggal_terbit === null) {
+    return NextResponse.json(
+      { error: "Tanggal terbit is required" },
+      { status: 400 }
+    );
   }
-  if (!body.tanggal_jatuh_tempo) {
-    return NextResponse.json({ error: "Tanggal jatuh tempo is required" }, { status: 400 });
+  if (body.tanggal_jatuh_tempo === undefined || body.tanggal_jatuh_tempo === null) {
+    return NextResponse.json(
+      { error: "Tanggal jatuh tempo is required" },
+      { status: 400 }
+    );
   }
 
   const { data, error } = await supabase
     .from("template_tagihan")
     .insert({
       nama: body.nama,
-      tanggal_terbit: body.tanggal_terbit,
-      tanggal_jatuh_tempo: body.tanggal_jatuh_tempo,
+      tanggal_terbit: Number(body.tanggal_terbit),
+      tanggal_jatuh_tempo: Number(body.tanggal_jatuh_tempo),
     })
     .select()
     .single();

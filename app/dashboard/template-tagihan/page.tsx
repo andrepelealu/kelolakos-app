@@ -8,7 +8,7 @@ import Modal from "@/components/Modal";
 import apiClient from "@/libs/api";
 import { TemplateTagihan, AddOn, Kamar, Penghuni } from "@/types";
 import toast from "react-hot-toast";
-import { formatRupiah, currentMonthDate, dayOfMonth } from "@/libs/formatter";
+import { formatRupiah, dayOfMonth } from "@/libs/formatter";
 
 interface FormData {
   nama: string;
@@ -93,8 +93,8 @@ export default function TemplateTagihanPage() {
   const openAdd = () => {
     setForm({
       nama: "",
-      tanggal_terbit: new Date().getDate().toString().padStart(2, "0"),
-      tanggal_jatuh_tempo: new Date().getDate().toString().padStart(2, "0"),
+      tanggal_terbit: new Date().getDate().toString(),
+      tanggal_jatuh_tempo: new Date().getDate().toString(),
       set_semua_kamar: true,
       kamar_ids: [],
       add_ons: [],
@@ -111,8 +111,8 @@ export default function TemplateTagihanPage() {
       const res: TemplateTagihan = await apiClient.get(`/template-tagihan/${row.id}`);
       setForm({
         nama: res.nama,
-        tanggal_terbit: res.tanggal_terbit.slice(8, 10),
-        tanggal_jatuh_tempo: res.tanggal_jatuh_tempo.slice(8, 10),
+        tanggal_terbit: String(res.tanggal_terbit),
+        tanggal_jatuh_tempo: String(res.tanggal_jatuh_tempo),
         set_semua_kamar: !res.kamars || res.kamars.length === 0,
         kamar_ids: res.kamars ? res.kamars.map((k) => k.id_kamar) : [],
         add_ons: res.add_ons ? res.add_ons.map((a) => a.id_add_on) : [],
@@ -142,8 +142,8 @@ export default function TemplateTagihanPage() {
     try {
       const payload = {
         nama: form.nama,
-        tanggal_terbit: currentMonthDate(form.tanggal_terbit),
-        tanggal_jatuh_tempo: currentMonthDate(form.tanggal_jatuh_tempo),
+        tanggal_terbit: Number(form.tanggal_terbit),
+        tanggal_jatuh_tempo: Number(form.tanggal_jatuh_tempo),
         set_semua_kamar: form.set_semua_kamar,
         kamar_ids: form.set_semua_kamar ? [] : form.kamar_ids,
         add_ons: form.add_ons,

@@ -46,7 +46,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
   const updatePayload: any = {};
   ["nama", "tanggal_terbit", "tanggal_jatuh_tempo"].forEach((key) => {
-    if (body[key] !== undefined) updatePayload[key] = body[key];
+    if (body[key] !== undefined) {
+      if (key === "tanggal_terbit" || key === "tanggal_jatuh_tempo") {
+        updatePayload[key] = Number(body[key]);
+      } else {
+        updatePayload[key] = body[key];
+      }
+    }
   });
 
   const { data, error } = await supabase
