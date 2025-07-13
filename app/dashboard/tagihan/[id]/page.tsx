@@ -104,20 +104,24 @@ export default function TagihanDetailPage() {
             <thead>
               <tr>
                 <th>Nama</th>
+                <th>Nominal</th>
                 <th>Qty</th>
-                <th>Harga</th>
-                <th>Satuan</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody>
               {data.add_ons.map((a) => (
                 <tr key={a.add_on_id}>
                   <td>{a.add_on?.nama}</td>
-                  <td>{a.qty}</td>
                   <td>{formatRupiah(a.add_on?.harga || 0)}</td>
-                  <td>{a.add_on?.satuan}</td>
+                  <td>{a.qty}</td>
+                  <td>{formatRupiah((a.add_on?.harga || 0) * a.qty)}</td>
                 </tr>
               ))}
+              <tr className="font-bold">
+                <td colSpan={3}>Total Add-on</td>
+                <td>{formatRupiah(data.add_on)}</td>
+              </tr>
             </tbody>
           </table>
         </div>
