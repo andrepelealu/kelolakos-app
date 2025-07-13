@@ -55,6 +55,8 @@ export default function TagihanPage() {
   const [addOnOptions, setAddOnOptions] = useState<AddOn[]>([]);
   const [selectedAddOns, setSelectedAddOns] = useState<{ id: string; qty: number }[]>([]);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [isBulkLoading, setIsBulkLoading] = useState(false);
 
   const fetchTagihan = async () => {
     setIsLoading(true);
@@ -242,10 +244,51 @@ export default function TagihanPage() {
     try {
       await apiClient.delete(`/tagihan/${row.id}`);
       fetchTagihan();
+      setSelectedIds((ids) => ids.filter((i) => i !== row.id));
     } catch (e) {
       console.error(e);
     }
     setOpenMenu(null);
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((ids) =>
+      ids.includes(id) ? ids.filter((i) => i !== id) : [...ids, id]
+    );
+  };
+
+  const selectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(tagihan.map((t) => t.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (!confirm("Delete selected tagihan?")) return;
+    setIsBulkLoading(true);
+    try {
+      await Promise.all(selectedIds.map((id) => apiClient.delete(`/tagihan/${id}`)));
+      setSelectedIds([]);
+      fetchTagihan();
+    } catch (e) {
+      console.error(e);
+    }
+    setIsBulkLoading(false);
+  };
+
+  const handleBulkSend = async () => {
+    setIsBulkLoading(true);
+    try {
+      await Promise.all(
+        selectedIds.map((id) => apiClient.post(`/tagihan/${id}/send`, {}))
+      );
+      toast.success("Tagihan dikirim");
+    } catch (e) {
+      console.error(e);
+    }
+    setIsBulkLoading(false);
   };
 
   return (
@@ -253,6 +296,30 @@ export default function TagihanPage() {
       <div className="flex justify-between items-center gap-2 flex-wrap">
         <h1 className="text-2xl font-bold">Tagihan</h1>
         <div className="flex gap-2 flex-1 justify-end">
+          {selectedIds.length > 0 && (
+            <>
+              <button
+                className="btn btn-error"
+                onClick={handleBulkDelete}
+                disabled={isBulkLoading}
+              >
+                {isBulkLoading && (
+                  <span className="loading loading-spinner loading-xs"></span>
+                )}
+                Delete Selected
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={handleBulkSend}
+                disabled={isBulkLoading}
+              >
+                {isBulkLoading && (
+                  <span className="loading loading-spinner loading-xs"></span>
+                )}
+                Send Selected
+              </button>
+            </>
+          )}
           <button className="btn btn-primary" onClick={openAdd}>
             Tambah Tagihan
           </button>
@@ -280,6 +347,17 @@ export default function TagihanPage() {
           <table className="table w-full">
             <thead>
               <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    checked={
+                      tagihan.length > 0 &&
+                      tagihan.every((t) => selectedIds.includes(t.id))
+                    }
+                    onChange={(e) => selectAll(e.target.checked)}
+                  />
+                </th>
                 <th>Nomor Invoice</th>
                 <th>Nomor Kamar</th>
                 <th>Nama Penghuni</th>
@@ -296,6 +374,14 @@ export default function TagihanPage() {
             <tbody>
               {tagihan.map((t) => (
                 <tr key={t.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      checked={selectedIds.includes(t.id)}
+                      onChange={() => toggleSelect(t.id)}
+                    />
+                  </td>
                   <td>{t.nomor_invoice}</td>
                   <td>{t.kamar?.nomor_kamar}</td>
                   <td>{t.penghuni?.nama}</td>
@@ -344,7 +430,7 @@ export default function TagihanPage() {
               ))}
               {tagihan.length === 0 && (
                 <tr>
-                  <td colSpan={11} className="text-center">
+                  <td colSpan={12} className="text-center">
                     No data
                   </td>
                 </tr>
