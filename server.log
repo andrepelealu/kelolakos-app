@@ -1,0 +1,499 @@
+
+> ship-fast-code@0.1.0 dev
+> next dev
+
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+   - Environments: .env
+
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ✓ Ready in 1642ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ✓ Compiled /middleware in 287ms (141 modules)
+ ⨯ ./app/api/tagihan/[id]/pdf/route.ts:182:39
+Module not found: Package path ./lib/react-pdf.js is not exported from package /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer (see exports field in /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer/package.json)
+[0m [90m 180 |[39m     [36mtry[39m {[0m
+[0m [90m 181 |[39m       [90m// Dynamic import to avoid SSR issues[39m[0m
+[0m[31m[1m>[22m[39m[90m 182 |[39m       [36mconst[39m { renderToBuffer } [33m=[39m [36mawait[39m [36mimport[39m([32m'@react-pdf/renderer'[39m)[33m;[39m[0m
+[0m [90m     |[39m                                       [31m[1m^[22m[39m[0m
+[0m [90m 183 |[39m       [36mconst[39m { [36mdefault[39m[33m:[39m [33mSimpleInvoicePDF[39m } [33m=[39m [36mawait[39m [36mimport[39m([32m'@/components/SimpleInvoicePDF'[39m)[33m;[39m[0m
+[0m [90m 184 |[39m       [0m
+[0m [90m 185 |[39m       [90m// Create React element using proper JSX[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ○ Compiling /not-found ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+🌼   daisyUI 4.10.1
+├─ ✔︎ 2 themes added		https://daisyui.com/docs/themes
+╰─ ★ Star daisyUI on GitHub	https://github.com/saadeghi/daisyui
+
+ ⨯ ./app/api/tagihan/[id]/pdf/route.ts:182:39
+Module not found: Package path ./lib/react-pdf.js is not exported from package /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer (see exports field in /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer/package.json)
+[0m [90m 180 |[39m     [36mtry[39m {[0m
+[0m [90m 181 |[39m       [90m// Dynamic import to avoid SSR issues[39m[0m
+[0m[31m[1m>[22m[39m[90m 182 |[39m       [36mconst[39m { renderToBuffer } [33m=[39m [36mawait[39m [36mimport[39m([32m'@react-pdf/renderer'[39m)[33m;[39m[0m
+[0m [90m     |[39m                                       [31m[1m^[22m[39m[0m
+[0m [90m 183 |[39m       [36mconst[39m { [36mdefault[39m[33m:[39m [33mSimpleInvoicePDF[39m } [33m=[39m [36mawait[39m [36mimport[39m([32m'@/components/SimpleInvoicePDF'[39m)[33m;[39m[0m
+[0m [90m 184 |[39m       [0m
+[0m [90m 185 |[39m       [90m// Create React element using proper JSX[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ✓ Compiled /not-found in 243ms (344 modules)
+ ○ Compiling /_error ...
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ⨯ ./app/api/tagihan/[id]/pdf/route.ts:182:39
+Module not found: Package path ./lib/react-pdf.js is not exported from package /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer (see exports field in /Users/andrepelealu/Work/kelolakos.com/node_modules/@react-pdf/renderer/package.json)
+[0m [90m 180 |[39m     [36mtry[39m {[0m
+[0m [90m 181 |[39m       [90m// Dynamic import to avoid SSR issues[39m[0m
+[0m[31m[1m>[22m[39m[90m 182 |[39m       [36mconst[39m { renderToBuffer } [33m=[39m [36mawait[39m [36mimport[39m([32m'@react-pdf/renderer'[39m)[33m;[39m[0m
+[0m [90m     |[39m                                       [31m[1m^[22m[39m[0m
+[0m [90m 183 |[39m       [36mconst[39m { [36mdefault[39m[33m:[39m [33mSimpleInvoicePDF[39m } [33m=[39m [36mawait[39m [36mimport[39m([32m'@/components/SimpleInvoicePDF'[39m)[33m;[39m[0m
+[0m [90m 184 |[39m       [0m
+[0m [90m 185 |[39m       [90m// Create React element using proper JSX[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+   - Environments: .env
+
+ ✓ Ready in 1495ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ✓ Compiled /middleware in 286ms (141 modules)
+ ○ Compiling /api/tagihan/[id]/pdf ...
+ ✓ Compiled /api/tagihan/[id]/pdf in 710ms (250 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+Regenerating PDF for tagihan: inv/303/01082025
+PDF rendering error: TypeError: ba.Component is not a constructor
+    at $$$reconciler (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:753:11)
+    at createRenderer (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:4023:10)
+    at pdf (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:4230:26)
+    at _callee$ (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:4436:22)
+    at tryCatch (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/regeneratorRuntime.js:45:16)
+    at Generator.eval (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/regeneratorRuntime.js:133:17)
+    at Generator.eval [as next] (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/regeneratorRuntime.js:74:21)
+    at asyncGeneratorStep (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:24)
+    at _next (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:9)
+    at eval (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/asyncToGenerator.js:27:7)
+    at new Promise (<anonymous>)
+    at eval (webpack-internal:///(rsc)/./node_modules/@babel/runtime/helpers/asyncToGenerator.js:19:12)
+    at renderToStream (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:4449:17)
+    at renderToBuffer (webpack-internal:///(rsc)/./node_modules/@react-pdf/renderer/lib/react-pdf.js:4493:10)
+    at POST (webpack-internal:///(rsc)/./app/api/tagihan/[id]/pdf/route.ts:162:98)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63809
+    at async eU.execute (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:53964)
+    at async eU.handle (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:65062)
+    at async doRender (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:1317:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:1527:40)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:1447:28)
+    at async DevServer.renderPageComponent (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:1844:24)
+    at async DevServer.renderToResponseImpl (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:1882:32)
+    at async DevServer.pipeImpl (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:895:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/next-server.js:269:17)
+    at async DevServer.handleRequestImpl (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/base-server.js:791:17)
+    at async /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/dev/next-dev-server.js:331:20
+    at async Span.traceAsyncFn (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/trace/trace.js:151:20)
+    at async DevServer.handleRequest (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/dev/next-dev-server.js:328:24)
+    at async invokeRender (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/lib/router-server.js:174:21)
+    at async handleRequest (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/lib/router-server.js:353:24)
+    at async requestHandlerImpl (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/lib/router-server.js:377:13)
+    at async Server.requestListener (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/lib/start-server.js:140:13)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+ ○ Compiling /dashboard/tagihan/[id] ...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+🌼   daisyUI 4.10.1
+├─ ✔︎ 2 themes added		https://daisyui.com/docs/themes
+╰─ ❤︎ Support daisyUI project:	https://opencollective.com/daisyui
+
+ ✓ Compiled /dashboard/tagihan/[id] in 2.7s (1216 modules)
+ ✓ Compiled in 261ms (437 modules)
+ ○ Compiling /not-found ...
+ ✓ Compiled /api/tagihan/[id] in 2.1s (1197 modules)
+ ✓ Compiled in 140ms (667 modules)
+ ✓ Compiled in 415ms (638 modules)
+ ✓ Compiled in 305ms (437 modules)
+ ✓ Compiled /api/tagihan/[id] in 64ms (665 modules)
+ ✓ Compiled in 271ms (437 modules)
+ ✓ Compiled in 209ms (437 modules)
+ ✓ Compiled /api/tagihan/[id]/pdf in 69ms (669 modules)
+Regenerating PDF for tagihan: inv/303/01082025
+PDF regenerated successfully, buffer size: 116008
+Generating PDF for tagihan: inv/303/01082025
+PDF generated successfully, buffer size: 116008
+Upload error: {
+  statusCode: '404',
+  error: 'Bucket not found',
+  message: 'Bucket not found'
+}
+ ✓ Compiled /api/tagihan in 133ms (671 modules)
+Regenerating PDF for tagihan: test/001/01082025
+PDF regenerated successfully, buffer size: 94814
+Failed to auto-generate PDF for new invoice: 9944e20d-42f9-43b6-8487-15dd8b35eec4
+Regenerating PDF for tagihan: test/001/01082025
+PDF regenerated successfully, buffer size: 94814
+Generating PDF for tagihan: test/001/01082025
+PDF generated successfully, buffer size: 94814
+Upload error: {
+  statusCode: '404',
+  error: 'Bucket not found',
+  message: 'Bucket not found'
+}
+ ○ Compiling /dashboard/tagihan ...
+ ✓ Compiled /dashboard/tagihan in 648ms (1107 modules)
+ ✓ Compiled /not-found in 173ms (664 modules)
+ ✓ Compiled /api/tagihan in 88ms (691 modules)
+ ✓ Compiled /api/kamar in 128ms (693 modules)
+ ✓ Compiled (695 modules)
+ ✓ Compiled /api/tagihan/[id]/pdf in 316ms (699 modules)
+Regenerating PDF for tagihan: inv/304/01082025
+PDF regenerated successfully, buffer size: 116813
+Failed to auto-generate PDF for new invoice: 3826032b-08ab-4342-b4e9-354e45102da7
+ ✓ Compiled /api/tagihan/[id] in 114ms (701 modules)
+Generating PDF for tagihan: inv/303/01082025
+PDF generated successfully, buffer size: 116008
+Upload error: {
+  statusCode: '404',
+  error: 'Bucket not found',
+  message: 'Bucket not found'
+}
+Generating PDF for tagihan: inv/304/01082025
+PDF generated successfully, buffer size: 116813
+Upload error: {
+  statusCode: '404',
+  error: 'Bucket not found',
+  message: 'Bucket not found'
+}
+ ✓ Compiled in 494ms (1121 modules)
+ ✓ Compiled /api/tagihan/[id] in 60ms (689 modules)
+ ✓ Compiled in 182ms (459 modules)
+ ✓ Compiled in 341ms (1148 modules)
+ ✓ Compiled /api/tagihan/[id]/pdf in 161ms (693 modules)
+Generating PDF for tagihan: inv/303/01082025
+PDF generated successfully, buffer size: 116008
+Upload error: {
+  statusCode: '404',
+  error: 'Bucket not found',
+  message: 'Bucket not found'
+}
+PDF generated but not stored, serving directly
+Invoice updated, PDF cache cleared for regeneration
+ ✓ Compiled in 126ms (689 modules)
+ ✓ Compiled /api/tagihan/[id]/pdf in 83ms (691 modules)
+Generating PDF for tagihan: inv/303/01082025
+PDF generated successfully, buffer size: 115330
+PDF successfully stored and path updated: 5ffbe43b-b0e4-46dc-a1e3-ae8f32ed43da/invoice-inv/303/01082025-1754034622469.pdf
+ ✓ Compiled /api/tagihan/[id] in 57ms (693 modules)
+Checking existing PDF at path: 5ffbe43b-b0e4-46dc-a1e3-ae8f32ed43da/invoice-inv/303/01082025-1754034622469.pdf
+Found existing PDF, serving from storage
+Invoice updated, PDF cache cleared for regeneration
+Generating PDF for tagihan: inv/303/01082025
+PDF generated successfully, buffer size: 116024
+PDF successfully stored and path updated: 5ffbe43b-b0e4-46dc-a1e3-ae8f32ed43da/invoice-inv/303/01082025-1754034665057.pdf
+ ○ Compiling / ...
+ ✓ Compiled / in 715ms (1143 modules)
+ ✓ Compiled /dashboard in 202ms (1120 modules)
+ ✓ Compiled /api/penghuni in 80ms (698 modules)
+ ✓ Compiled /api/kamar in 64ms (700 modules)
+ ✓ Compiled (702 modules)
+ ✓ Compiled /api/tagihan/[id] in 191ms (704 modules)
+ ✓ Compiled /api/tagihan/[id]/pdf in 118ms (708 modules)
+Generating PDF for tagihan: test/001/01082025
+PDF generated successfully, buffer size: 94809
+PDF successfully stored and path updated: 9944e20d-42f9-43b6-8487-15dd8b35eec4/invoice-test/001/01082025-1754034755843.pdf
+Checking existing PDF at path: 9944e20d-42f9-43b6-8487-15dd8b35eec4/invoice-test/001/01082025-1754034755843.pdf
+Found existing PDF, serving from storage
+ ✓ Compiled in 560ms (1129 modules)
+ ✓ Compiled in 276ms (463 modules)
+ ✓ Compiled in 641ms (1129 modules)
+ ✓ Compiled in 546ms (1131 modules)
+ ✓ Compiled in 542ms (1131 modules)
+ ✓ Compiled /not-found in 241ms (669 modules)
+TypeError: Cannot read properties of undefined (reading 'clientModules')
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:379233
+    at rw (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:15835)
+    at ai (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6391)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11242
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:13009)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:55430
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56107
+    at aI (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56115)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Timeout._onTimeout (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:72312)
+    at listOnTimeout (node:internal/timers:614:17)
+    at process.processTimers (node:internal/timers:549:7)
+ ⨯ TypeError: Cannot read properties of undefined (reading 'clientModules')
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:379233
+    at rw (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:15835)
+    at ai (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6391)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11242
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:13009)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:55430
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56107
+    at aI (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56115)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Timeout._onTimeout (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:72312)
+    at listOnTimeout (node:internal/timers:614:17)
+    at process.processTimers (node:internal/timers:549:7)
+ ⨯ Internal error: TypeError: Cannot read properties of undefined (reading 'clientModules')
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:379233
+    at rw (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:39:15835)
+    at ai (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:6391)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:11242
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:13009)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:41912)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at av (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:7809)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:12972
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:13009)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at ab (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:41912)
+    at aS (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:46552)
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:55430
+    at /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56107
+    at aI (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:56115)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_hooks:91:14)
+    at Timeout._onTimeout (/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:72312)
+    at listOnTimeout (node:internal/timers:614:17)
+    at process.processTimers (node:internal/timers:549:7)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 529ms (1281 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/penghuni/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/penghuni/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/penghuni/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/penghuni/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/penghuni/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/tagihan/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/tagihan/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/tagihan/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/kamar/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/kamar/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/kamar/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/kamar/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/kamar/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/tagihan/[id]/pdf/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/export/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/tagihan/[id]/pdf/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/utils.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/worker.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-route-loader/index.js
+ ✓ Compiled in 1047ms (587 modules)
+ ✓ Compiled in 1037ms (1293 modules)
+ ✓ Compiled in 380ms (1293 modules)
+ ✓ Compiled in 557ms (1293 modules)
+ ✓ Compiled in 478ms (1293 modules)
+ ✓ Compiled in 211ms (587 modules)
+ ✓ Compiled in 295ms (1293 modules)
+ ✓ Compiled in 1048ms (587 modules)
+ ✓ Compiled in 313ms (587 modules)
+ ✓ Compiled in 284ms (587 modules)
+ ✓ Compiled in 212ms (587 modules)
+ ✓ Compiled in 269ms (587 modules)
+ ✓ Compiled in 1022ms (587 modules)
+ ✓ Compiled in 224ms (587 modules)
+ ✓ Compiled in 264ms (587 modules)
+ ✓ Compiled in 197ms (587 modules)
+ ✓ Compiled in 297ms (587 modules)
+ ✓ Compiled in 250ms (587 modules)
+ ✓ Compiled in 2.5s (1420 modules)
+ ✓ Compiled in 477ms (1420 modules)
+ ✓ Compiled in 1248ms (1420 modules)
+ ✓ Compiled in 407ms (1293 modules)
+ ✓ Compiled in 340ms (587 modules)
+ ✓ Compiled in 271ms (587 modules)
+ ✓ Compiled in 219ms (587 modules)
+ ✓ Compiled in 233ms (587 modules)
+ ✓ Compiled in 227ms (587 modules)
+ ✓ Compiled in 336ms (587 modules)
+ ✓ Compiled in 287ms (587 modules)
+ ✓ Compiled in 284ms (587 modules)
+ ✓ Compiled in 337ms (587 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/andrepelealu/Work/kelolakos.com/.next/cache/webpack/client-development/0.pack.gz_' -> '/Users/andrepelealu/Work/kelolakos.com/.next/cache/webpack/client-development/0.pack.gz'
+ ✓ Compiled in 1731ms (1279 modules)
+ ✓ Compiled in 302ms (1279 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, lstat '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]'
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server for build dependencies doesn't lead to expected result '/Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js', but to 'Error: Can't resolve '../../../../.next/server/app/api/tagihan/[id]/pdf/route' in '/Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server'' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../../.next/server/app/api/tagihan/[id]/pdf/route (expected /Users/andrepelealu/Work/kelolakos.com/.next/server/app/api/tagihan/[id]/pdf/route.js)
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/require.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/load-components.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/server/load-components.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/utils.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/utils.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/entries.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/entries.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/plugins/next-types-plugin/index.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/plugins/next-types-plugin/index.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack-config.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack-config.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/handle-externals.js
+<w>  at file dependencies /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at file /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+<w>  at resolve commonjs /Users/andrepelealu/Work/kelolakos.com/node_modules/next/dist/build/webpack/loaders/next-swc-loader.js
+ ✓ Compiled in 1092ms (1420 modules)
+ ✓ Compiled in 450ms (1420 modules)
+ ✓ Compiled in 470ms (1420 modules)
+ ✓ Compiled in 393ms (1420 modules)
+ ✓ Compiled in 344ms (1293 modules)
+ ✓ Compiled in 261ms (587 modules)
+ ✓ Compiled in 202ms (587 modules)
+ ✓ Compiled in 460ms (1293 modules)
+ ✓ Compiled in 294ms (1293 modules)
+ ✓ Compiled in 1313ms (1279 modules)
+ ✓ Compiled in 134ms (1279 modules)
+ ✓ Compiled in 291ms (587 modules)
+ ⚠ Found a change in next.config.js. Restarting the server to apply the changes...
+   ▲ Next.js 14.1.4
+   - Local:        http://localhost:3000
+   - Environments: .env
+
+ ✓ Ready in 1601ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-x64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-arm64-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-musl isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-arm64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-linux-x64-gnu isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-darwin-x64 isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/swc-win32-ia32-msvc isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@types/node isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@next/mdx isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@mdx-js/loader isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Managed item /Users/andrepelealu/Work/kelolakos.com/node_modules/@rushstack/eslint-patch isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
+[?25h

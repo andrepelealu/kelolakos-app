@@ -5,6 +5,15 @@ import { createAdminClient } from "@/libs/supabase/admin";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  const supabaseUser = createClient();
+  const {
+    data: { user },
+  } = await supabaseUser.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const supabase = createAdminClient();
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -15,21 +24,83 @@ export async function GET(req: NextRequest) {
   const selesaiSewaStart = searchParams.get("selesai_sewa_start") || "";
   const selesaiSewaEnd = searchParams.get("selesai_sewa_end") || "";
   const status = searchParams.get("status") || "";
+  const kos_id = searchParams.get("kos_id");
+
+  if (!kos_id) {
+    return NextResponse.json({ error: "kos_id is required" }, { status: 400 });
+  }
+
+  // Verify user owns this kos
+  const { data: kosData } = await supabase
+    .from("kos")
+    .select("id")
+    .eq("id", kos_id)
+    .eq("user_id", user.id)
+    .is("deleted_at", null)
+    .single();
+
+  if (!kosData) {
+    return NextResponse.json({ error: "Kos not found or access denied" }, { status: 403 });
+  }
 
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
-  let query = supabase
-    .from("penghuni")
-    .select("*, kamar: kamar_id (nomor_kamar)", { count: "exact" })
-    .is("deleted_at", null)
-    .range(from, to);
-
+  let penghuniIds: string[] = [];
+  
+  // If there's a search query, we need to find matching records
   if (q) {
     const like = `%${q}%`;
-    query = query.or(
-      `nama.ilike.${like},kamar.nomor_kamar.ilike.${like},nomor_telepon.ilike.${like},email.ilike.${like}`
-    );
+    
+    // Search in penghuni table for this kos
+    const { data: penghuniMatches } = await supabase
+      .from("penghuni")
+      .select("id")
+      .eq("kos_id", kos_id)
+      .is("deleted_at", null)
+      .or(`nama.ilike.${like},nomor_telepon.ilike.${like},email.ilike.${like}`);
+    
+    // Search for kamar by nomor_kamar in this kos and get penghuni with those kamar_ids
+    const { data: kamarMatches } = await supabase
+      .from("kamar")
+      .select("id")
+      .eq("kos_id", kos_id)
+      .is("deleted_at", null)
+      .ilike("nomor_kamar", like);
+      
+    const penghuniByKamarQuery = kamarMatches && kamarMatches.length > 0 
+      ? await supabase
+          .from("penghuni")
+          .select("id")
+          .eq("kos_id", kos_id)
+          .is("deleted_at", null)
+          .in("kamar_id", kamarMatches.map(k => k.id))
+      : { data: [] as {id: string}[] };
+    const { data: penghuniByKamar } = penghuniByKamarQuery;
+    
+    // Combine all matching IDs
+    const allMatches = [
+      ...(penghuniMatches || []),
+      ...(penghuniByKamar || [])
+    ];
+    
+    penghuniIds = Array.from(new Set(allMatches.map(p => p.id)));
+    
+    // If no matches found, return empty result
+    if (penghuniIds.length === 0) {
+      return NextResponse.json({ data: [], count: 0, page, limit });
+    }
+  }
+
+  let query = supabase
+    .from("penghuni")
+    .select("*, kamar: kamar_id (nomor_kamar), kos(nama_kos)", { count: "exact" })
+    .eq("kos_id", kos_id)
+    .is("deleted_at", null);
+    
+  // Apply search filter if we have search results
+  if (q && penghuniIds.length > 0) {
+    query = query.in("id", penghuniIds);
   }
 
   if (mulaiSewaStart) {
@@ -68,6 +139,9 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // Apply pagination
+  query = query.range(from, to);
+  
   const { data, count, error } = await query;
 
   if (error) {
@@ -83,12 +157,20 @@ export async function POST(req: NextRequest) {
     data: { user },
   } = await supabaseUser.auth.getUser();
 
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const supabase = createAdminClient();
   const body = await req.json();
 
   // basic validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^62\d{8,15}$/;
+
+  if (!body.kos_id) {
+    return NextResponse.json({ error: "kos_id is required" }, { status: 400 });
+  }
 
   if (!body.nama) {
     return NextResponse.json({ error: "Nama is required" }, { status: 400 });
@@ -133,16 +215,30 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Verify user owns this kos
+  const { data: kosData } = await supabase
+    .from("kos")
+    .select("id")
+    .eq("id", body.kos_id)
+    .eq("user_id", user.id)
+    .is("deleted_at", null)
+    .single();
+
+  if (!kosData) {
+    return NextResponse.json({ error: "Kos not found or access denied" }, { status: 403 });
+  }
+
   const { data: kamar, error: kamarError } = await supabase
     .from("kamar")
-    .select("id")
+    .select("id, kos_id")
     .eq("id", body.kamar_id)
+    .eq("kos_id", body.kos_id)
     .is("deleted_at", null)
     .single();
 
   if (kamarError || !kamar) {
     return NextResponse.json(
-      { error: "Nomor kamar tidak valid" },
+      { error: "Nomor kamar tidak valid atau tidak ditemukan di kos ini" },
       { status: 400 }
     );
   }
@@ -150,6 +246,7 @@ export async function POST(req: NextRequest) {
   const { data, error } = await supabase
     .from("penghuni")
     .insert({
+      kos_id: body.kos_id,
       nama: body.nama,
       kamar_id: body.kamar_id,
       nomor_telepon: body.nomor_telepon,
@@ -157,7 +254,7 @@ export async function POST(req: NextRequest) {
       mulai_sewa: body.mulai_sewa,
       selesai_sewa: body.selesai_sewa,
     })
-    .select()
+    .select("*, kamar: kamar_id (nomor_kamar), kos(nama_kos)")
     .single();
 
   if (!error) {

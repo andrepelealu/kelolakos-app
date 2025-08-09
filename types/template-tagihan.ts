@@ -1,8 +1,10 @@
 import type { AddOn } from "./addon";
 import type { Kamar } from "./kamar";
+import type { Kos } from "./kos";
 
 export interface TemplateTagihan {
   id: string;
+  kos_id: string;
   nama: string;
   tanggal_terbit: number;
   tanggal_jatuh_tempo: number;
@@ -11,6 +13,7 @@ export interface TemplateTagihan {
   updated_at: string;
   add_ons?: AddOnTetap[];
   kamars?: TemplateTagihanKamar[];
+  kos?: Kos;
 }
 
 export interface AddOnTetap {

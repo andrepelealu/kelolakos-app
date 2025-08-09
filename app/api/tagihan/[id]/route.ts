@@ -6,24 +6,55 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const supabase = createAdminClient();
+  // First, get the main tagihan data
   const { data, error } = await supabase
     .from("tagihan")
-    .select(
-      `*, kamar:kamar_id(nomor_kamar, harga), tagihan_addon(qty, add_on:add_on_id(*))`
-    )
+    .select("*, kamar:kamar_id(nomor_kamar, harga)")
     .eq("id", params.id)
     .is("deleted_at", null)
     .single();
 
-  if (data && Array.isArray(data.tagihan_addon)) {
-    data.add_ons = data.tagihan_addon.map((t: any) => ({
-      tagihan_id: t.tagihan_id,
-      add_on_id: t.add_on_id,
-      qty: t.qty,
-      add_on: t.add_on,
-    }));
-    delete (data as any).tagihan_addon;
+
+  // Then get the add-ons separately
+  if (data && !error) {
+    const { data: addOnData, error: addOnError } = await supabase
+      .from("tagihan_addon")
+      .select(`
+        tagihan_id,
+        add_on_id,
+        qty,
+        add_on:add_on_id(nama, harga, satuan)
+      `)
+      .eq("tagihan_id", params.id);
+
+
+    if (addOnData && !addOnError) {
+      data.add_ons = addOnData.map((item: any) => ({
+        tagihan_id: item.tagihan_id,
+        add_on_id: item.add_on_id,
+        qty: item.qty,
+        add_on: item.add_on,
+      }));
+      
+      // Calculate total add-on amount and verify with stored value
+      const calculatedAddOnTotal = addOnData.reduce((total: number, item: any) => {
+        return total + ((item.add_on?.harga || 0) * item.qty);
+      }, 0);
+      
+      
+      // Update the stored total if it doesn't match (data integrity)
+      if (Math.abs(calculatedAddOnTotal - (data.add_on || 0)) > 0.01) {
+        await supabase
+          .from("tagihan")
+          .update({ add_on: calculatedAddOnTotal })
+          .eq("id", params.id);
+        data.add_on = calculatedAddOnTotal;
+      }
+    } else {
+      data.add_ons = [];
+    }
   }
+
 
   if (data) {
     const penghuniRes = await supabase
@@ -86,6 +117,35 @@ export async function PUT(
       }));
       await supabase.from("tagihan_addon").insert(rows);
     }
+  }
+
+  // Clear PDF path to force regeneration on next download
+  // This ensures the PDF stays up-to-date with any changes
+  try {
+    // Get current PDF path to delete old file
+    const { data: currentData } = await supabase
+      .from("tagihan")
+      .select("pdf_path")
+      .eq("id", params.id)
+      .single();
+
+    if (currentData?.pdf_path) {
+      // Delete old PDF file from storage
+      await supabase.storage
+        .from('invoices')
+        .remove([currentData.pdf_path]);
+    }
+
+    // Clear PDF path to force regeneration
+    await supabase
+      .from("tagihan")
+      .update({ pdf_path: null })
+      .eq("id", params.id);
+
+    console.log('Invoice updated, PDF cache cleared for regeneration');
+  } catch (pdfError) {
+    console.error('Error clearing PDF cache:', pdfError);
+    // Don't fail the update if PDF clearing fails
   }
 
   return NextResponse.json(data);

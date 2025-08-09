@@ -10,6 +10,23 @@ const nextConfig = {
       "logos-world.net",
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: [
+      '@whiskeysockets/baileys',
+      'sharp',
+      'puppeteer'
+    ]
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals.push({
+        '@whiskeysockets/baileys': 'commonjs @whiskeysockets/baileys',
+        'pino': 'commonjs pino',
+        'pino-pretty': 'commonjs pino-pretty'
+      });
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;

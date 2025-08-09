@@ -82,7 +82,7 @@ export const createCheckout = async ({
 
     return stripeSession.url;
   } catch (e) {
-    console.error(e);
+    console.error('Stripe checkout error:', e);
     return null;
   }
 };
@@ -119,7 +119,7 @@ export const findCheckoutSession = async (sessionId: string) => {
 
     return session;
   } catch (e) {
-    console.error(e);
+    console.error('Stripe checkout error:', e);
     return null;
   }
 };

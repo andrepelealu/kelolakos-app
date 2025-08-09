@@ -58,6 +58,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const today = new Date().toISOString().slice(0, 10);
 
+  const results = [];
+  
   for (const k of kamars) {
     const penghuniRes = await supabase
       .from("penghuni")
@@ -76,17 +78,95 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     const tanggalTerbit = currentMonthDate(template.tanggal_terbit);
     const tanggalJatuh = currentMonthDate(template.tanggal_jatuh_tempo);
     const invoice = generateInvoice(k.nomor_kamar, tanggalTerbit);
-    await supabase.from("tagihan").insert({
-      nomor_invoice: invoice,
-      kamar_id: k.id,
-      status_pembayaran: "belum bayar",
-      add_on: addOnTotal,
-      tanggal_terbit: tanggalTerbit,
-      tanggal_jatuh_tempo: tanggalJatuh,
-      denda: 0,
-      total_tagihan: addOnTotal + (k.harga || 0),
+    
+    // Check if invoice already exists
+    const { data: existingTagihan } = await supabase
+      .from("tagihan")
+      .select("id")
+      .eq("nomor_invoice", invoice)
+      .single();
+    
+    if (existingTagihan) {
+      continue; // Skip if invoice already exists
+    }
+    
+    const { data: tagihan, error: tagihanError } = await supabase
+      .from("tagihan")
+      .insert({
+        nomor_invoice: invoice,
+        kamar_id: k.id,
+        status_pembayaran: "belum_bayar",
+        add_on: addOnTotal,
+        tanggal_terbit: tanggalTerbit,
+        tanggal_jatuh_tempo: tanggalJatuh,
+        denda: 0,
+        total_tagihan: addOnTotal + (k.harga || 0),
+      })
+      .select()
+      .single();
+    
+    if (tagihanError || !tagihan) {
+      console.error("Error creating tagihan:", tagihanError);
+      continue;
+    }
+    
+    // Insert add-on records
+    if (addOnLinks && addOnLinks.length > 0) {
+      const addOnRecords = addOnLinks.map((link) => ({
+        tagihan_id: tagihan.id,
+        add_on_id: link.id_add_on,
+        qty: 1,
+      }));
+      
+      const { error: addOnError } = await supabase
+        .from("tagihan_addon")
+        .insert(addOnRecords);
+      
+      if (addOnError) {
+        console.error("Error creating add-on records:", addOnError);
+      }
+    }
+    
+    results.push({
+      kamar: k.nomor_kamar,
+      invoice: invoice,
+      total: addOnTotal + (k.harga || 0),
+      tagihan_id: tagihan.id,
     });
   }
 
-  return NextResponse.json({});
+  // Auto-generate PDFs for all created invoices
+  if (results.length > 0) {
+    try {
+      const baseUrl = req.nextUrl.origin;
+      const pdfPromises = results.map(async (result) => {
+        try {
+          const pdfResponse = await fetch(`${baseUrl}/api/tagihan/${result.tagihan_id}/pdf`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          
+          if (pdfResponse.ok) {
+            console.log('PDF auto-generated for invoice:', result.invoice);
+          } else {
+            console.error('Failed to auto-generate PDF for invoice:', result.invoice);
+          }
+        } catch (error) {
+          console.error('Error auto-generating PDF for invoice:', result.invoice, error);
+        }
+      });
+      
+      // Execute all PDF generations in parallel but don't wait for them
+      Promise.allSettled(pdfPromises);
+    } catch (error) {
+      console.error('Error initiating PDF generation:', error);
+    }
+  }
+
+  return NextResponse.json({
+    message: `Successfully generated ${results.length} invoices`,
+    results: results,
+  });
 }

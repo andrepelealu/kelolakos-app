@@ -22,8 +22,8 @@ apiClient.interceptors.response.use(
       // Sends the user to the login page
       redirect(config.auth.loginUrl);
     } else if (error.response?.status === 403) {
-      // User not authorized, must subscribe/purchase/pick a plan
-      message = "Pick a plan to use this feature";
+      // User not authorized - could be subscription or kos access issue
+      message = error?.response?.data?.error || "Access denied";
     } else {
       message =
         error?.response?.data?.error || error.message || error.toString();
