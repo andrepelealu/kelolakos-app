@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { id } from "date-fns/locale";
+import idLocale from "date-fns/locale/id";
 import apiClient from "@/libs/api";
 import { useKos } from "@/contexts/KosContext";
 import NotificationStatus, { NotificationStatusBadge, NotificationTypeBadge, NotificationReadCount } from "@/components/NotificationStatus";
@@ -205,7 +205,7 @@ export default function NotifikasiPage() {
                       <span>
                         {formatDistanceToNow(new Date(notification.created_at), { 
                           addSuffix: true, 
-                          locale: id 
+                          locale: idLocale 
                         })}
                       </span>
                       {notification.tagihan && (
@@ -232,7 +232,7 @@ export default function NotifikasiPage() {
                         <div className="text-xs">
                           {formatDistanceToNow(new Date(notification.read_at), { 
                             addSuffix: true, 
-                            locale: id 
+                            locale: idLocale 
                           })}
                         </div>
                       </div>
